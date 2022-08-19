@@ -1,5 +1,5 @@
-# Repro for Heaps sound glitch
+# Repro for Heaps mask bug
 
-Live demo: https://zommerfelds.github.io/heaps-sound-bug/
+Live demo: https://zommerfelds.github.io/heaps-mask-bug/
 
-Issue: https://github.com/HeapsIO/heaps/issues/1067
+Issue: TODO
