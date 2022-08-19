@@ -110,43 +110,35 @@ App.main = function() {
 App.__super__ = hxd_App;
 App.prototype = $extend(hxd_App.prototype,{
 	init: function() {
-		hxd_Res.set_loader(new hxd_res_Loader(new hxd_fs_EmbedFileSystem(haxe_Unserializer.run("oy8:blip.wavty9:blip2.wavtg"))));
+		hxd_Res.set_loader(new hxd_res_Loader(new hxd_fs_EmbedFileSystem(haxe_Unserializer.run("oy9:shape.pngtg"))));
+		var shapeTile = hxd_Res.get_loader().loadCache("shape.png",hxd_res_Image).toTile();
+		shapeTile.dx = -(0.5 * shapeTile.width);
+		shapeTile.dy = -(0.5 * shapeTile.height);
+		this.shape = new h2d_Bitmap(shapeTile,this.s2d);
+		var _this = this.shape;
+		_this.posChanged = true;
+		_this.x = this.s2d.width / 2;
+		var _this = this.shape;
+		_this.posChanged = true;
+		_this.y = this.s2d.height / 2;
 		var flow = new h2d_Flow(this.s2d);
-		flow.posChanged = true;
-		flow.x = 50;
-		flow.posChanged = true;
-		flow.y = 30;
 		flow.set_backgroundTile(h2d_Tile.fromColor(16711680));
-		flow.set_padding(20);
-		flow.set_enableInteractive(true);
-		flow.interactive.onClick = function(e) {
-			haxe_Log.trace("Playing sound",{ fileName : "src/App.hx", lineNumber : 19, className : "App", methodName : "init"});
-			hxd_Res.get_loader().loadCache("blip.wav",hxd_res_Sound).play();
-		};
-		var tf = new h2d_Text(hxd_res_DefaultFont.get(),flow);
-		tf.posChanged = true;
-		tf.scaleX *= 3;
-		tf.posChanged = true;
-		tf.scaleY *= 3;
-		tf.set_text("Bad file");
-		var flow = new h2d_Flow(this.s2d);
-		flow.posChanged = true;
-		flow.x = 50;
-		flow.posChanged = true;
-		flow.y = 120;
-		flow.set_backgroundTile(h2d_Tile.fromColor(65280));
-		flow.set_padding(20);
-		flow.set_enableInteractive(true);
-		flow.interactive.onClick = function(e) {
-			haxe_Log.trace("Playing sound",{ fileName : "src/App.hx", lineNumber : 34, className : "App", methodName : "init"});
-			hxd_Res.get_loader().loadCache("blip2.wav",hxd_res_Sound).play();
-		};
-		var tf = new h2d_Text(hxd_res_DefaultFont.get(),flow);
-		tf.posChanged = true;
-		tf.scaleX *= 3;
-		tf.posChanged = true;
-		tf.scaleY *= 3;
-		tf.set_text("Good file");
+		flow.set_fillHeight(true);
+		flow.set_fillWidth(true);
+		flow.set_verticalAlign(h2d_FlowAlign.Middle);
+		flow.set_horizontalAlign(h2d_FlowAlign.Middle);
+		flow.set_filter(new h2d_filter_Mask(this.shape,true,true));
+		var text = new h2d_Text(hxd_res_DefaultFont.get(),flow);
+		text.set_text("Hello, is this a mask bug?");
+		text.posChanged = true;
+		text.scaleX *= 5;
+		text.posChanged = true;
+		text.scaleY *= 5;
+	}
+	,update: function(dt) {
+		var fh = this.shape;
+		fh.posChanged = true;
+		fh.rotation += dt;
 	}
 	,__class__: App
 });
@@ -1209,399 +1201,6 @@ format_gif_Tools.extractFullRGBA = function(data,frameIndex) {
 		}
 	}
 	return bytes;
-};
-var format_mp3_SamplingRate = $hxEnums["format.mp3.SamplingRate"] = { __ename__:true,__constructs__:null
-	,SR_8000: {_hx_name:"SR_8000",_hx_index:0,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_11025: {_hx_name:"SR_11025",_hx_index:1,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_12000: {_hx_name:"SR_12000",_hx_index:2,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_22050: {_hx_name:"SR_22050",_hx_index:3,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_24000: {_hx_name:"SR_24000",_hx_index:4,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_32000: {_hx_name:"SR_32000",_hx_index:5,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_44100: {_hx_name:"SR_44100",_hx_index:6,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_48000: {_hx_name:"SR_48000",_hx_index:7,__enum__:"format.mp3.SamplingRate",toString:$estr}
-	,SR_Bad: {_hx_name:"SR_Bad",_hx_index:8,__enum__:"format.mp3.SamplingRate",toString:$estr}
-};
-format_mp3_SamplingRate.__constructs__ = [format_mp3_SamplingRate.SR_8000,format_mp3_SamplingRate.SR_11025,format_mp3_SamplingRate.SR_12000,format_mp3_SamplingRate.SR_22050,format_mp3_SamplingRate.SR_24000,format_mp3_SamplingRate.SR_32000,format_mp3_SamplingRate.SR_44100,format_mp3_SamplingRate.SR_48000,format_mp3_SamplingRate.SR_Bad];
-format_mp3_SamplingRate.__empty_constructs__ = [format_mp3_SamplingRate.SR_8000,format_mp3_SamplingRate.SR_11025,format_mp3_SamplingRate.SR_12000,format_mp3_SamplingRate.SR_22050,format_mp3_SamplingRate.SR_24000,format_mp3_SamplingRate.SR_32000,format_mp3_SamplingRate.SR_44100,format_mp3_SamplingRate.SR_48000,format_mp3_SamplingRate.SR_Bad];
-var format_mp3_Bitrate = $hxEnums["format.mp3.Bitrate"] = { __ename__:true,__constructs__:null
-	,BR_8: {_hx_name:"BR_8",_hx_index:0,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_16: {_hx_name:"BR_16",_hx_index:1,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_24: {_hx_name:"BR_24",_hx_index:2,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_32: {_hx_name:"BR_32",_hx_index:3,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_40: {_hx_name:"BR_40",_hx_index:4,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_48: {_hx_name:"BR_48",_hx_index:5,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_56: {_hx_name:"BR_56",_hx_index:6,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_64: {_hx_name:"BR_64",_hx_index:7,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_80: {_hx_name:"BR_80",_hx_index:8,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_96: {_hx_name:"BR_96",_hx_index:9,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_112: {_hx_name:"BR_112",_hx_index:10,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_128: {_hx_name:"BR_128",_hx_index:11,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_144: {_hx_name:"BR_144",_hx_index:12,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_160: {_hx_name:"BR_160",_hx_index:13,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_176: {_hx_name:"BR_176",_hx_index:14,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_192: {_hx_name:"BR_192",_hx_index:15,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_224: {_hx_name:"BR_224",_hx_index:16,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_256: {_hx_name:"BR_256",_hx_index:17,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_288: {_hx_name:"BR_288",_hx_index:18,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_320: {_hx_name:"BR_320",_hx_index:19,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_352: {_hx_name:"BR_352",_hx_index:20,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_384: {_hx_name:"BR_384",_hx_index:21,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_416: {_hx_name:"BR_416",_hx_index:22,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_448: {_hx_name:"BR_448",_hx_index:23,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_Free: {_hx_name:"BR_Free",_hx_index:24,__enum__:"format.mp3.Bitrate",toString:$estr}
-	,BR_Bad: {_hx_name:"BR_Bad",_hx_index:25,__enum__:"format.mp3.Bitrate",toString:$estr}
-};
-format_mp3_Bitrate.__constructs__ = [format_mp3_Bitrate.BR_8,format_mp3_Bitrate.BR_16,format_mp3_Bitrate.BR_24,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_40,format_mp3_Bitrate.BR_48,format_mp3_Bitrate.BR_56,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_80,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_112,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_144,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_176,format_mp3_Bitrate.BR_192,format_mp3_Bitrate.BR_224,format_mp3_Bitrate.BR_256,format_mp3_Bitrate.BR_288,format_mp3_Bitrate.BR_320,format_mp3_Bitrate.BR_352,format_mp3_Bitrate.BR_384,format_mp3_Bitrate.BR_416,format_mp3_Bitrate.BR_448,format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_Bad];
-format_mp3_Bitrate.__empty_constructs__ = [format_mp3_Bitrate.BR_8,format_mp3_Bitrate.BR_16,format_mp3_Bitrate.BR_24,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_40,format_mp3_Bitrate.BR_48,format_mp3_Bitrate.BR_56,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_80,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_112,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_144,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_176,format_mp3_Bitrate.BR_192,format_mp3_Bitrate.BR_224,format_mp3_Bitrate.BR_256,format_mp3_Bitrate.BR_288,format_mp3_Bitrate.BR_320,format_mp3_Bitrate.BR_352,format_mp3_Bitrate.BR_384,format_mp3_Bitrate.BR_416,format_mp3_Bitrate.BR_448,format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_Bad];
-var format_mp3_MPEG = function() { };
-$hxClasses["format.mp3.MPEG"] = format_mp3_MPEG;
-format_mp3_MPEG.__name__ = "format.mp3.MPEG";
-format_mp3_MPEG.enum2Num = function(m) {
-	switch(m._hx_index) {
-	case 0:
-		return 3;
-	case 1:
-		return 2;
-	case 2:
-		return 0;
-	case 3:
-		return format_mp3_MPEG.Reserved;
-	}
-};
-format_mp3_MPEG.num2Enum = function(m) {
-	switch(m) {
-	case 0:
-		return format_mp3_MPEGVersion.MPEG_V25;
-	case 2:
-		return format_mp3_MPEGVersion.MPEG_V2;
-	case 3:
-		return format_mp3_MPEGVersion.MPEG_V1;
-	default:
-		return format_mp3_MPEGVersion.MPEG_Reserved;
-	}
-};
-format_mp3_MPEG.srEnum2Num = function(sr) {
-	switch(sr._hx_index) {
-	case 0:
-		return 8000;
-	case 1:
-		return 11025;
-	case 2:
-		return 12000;
-	case 3:
-		return 22050;
-	case 4:
-		return 24000;
-	case 5:
-		return 32000;
-	case 6:
-		return 44100;
-	case 7:
-		return 48000;
-	case 8:
-		return -1;
-	}
-};
-format_mp3_MPEG.bitrateEnum2Num = function(br) {
-	switch(br._hx_index) {
-	case 0:
-		return 8;
-	case 1:
-		return 16;
-	case 2:
-		return 24;
-	case 3:
-		return 32;
-	case 4:
-		return 40;
-	case 5:
-		return 48;
-	case 6:
-		return 56;
-	case 7:
-		return 64;
-	case 8:
-		return 80;
-	case 9:
-		return 96;
-	case 10:
-		return 112;
-	case 11:
-		return 128;
-	case 12:
-		return 144;
-	case 13:
-		return 160;
-	case 14:
-		return 176;
-	case 15:
-		return 192;
-	case 16:
-		return 224;
-	case 17:
-		return 256;
-	case 18:
-		return 288;
-	case 19:
-		return 320;
-	case 20:
-		return 352;
-	case 21:
-		return 384;
-	case 22:
-		return 416;
-	case 23:
-		return 448;
-	case 24:
-		return 0;
-	case 25:
-		return -1;
-	}
-};
-var format_mp3_CLayer = function() { };
-$hxClasses["format.mp3.CLayer"] = format_mp3_CLayer;
-format_mp3_CLayer.__name__ = "format.mp3.CLayer";
-format_mp3_CLayer.num2Enum = function(l) {
-	switch(l) {
-	case 1:
-		return format_mp3_Layer.Layer3;
-	case 2:
-		return format_mp3_Layer.Layer2;
-	case 3:
-		return format_mp3_Layer.Layer1;
-	default:
-		return format_mp3_Layer.LayerReserved;
-	}
-};
-var format_mp3_CChannelMode = function() { };
-$hxClasses["format.mp3.CChannelMode"] = format_mp3_CChannelMode;
-format_mp3_CChannelMode.__name__ = "format.mp3.CChannelMode";
-format_mp3_CChannelMode.num2Enum = function(c) {
-	switch(c) {
-	case 0:
-		return format_mp3_ChannelMode.Stereo;
-	case 1:
-		return format_mp3_ChannelMode.JointStereo;
-	case 2:
-		return format_mp3_ChannelMode.DualChannel;
-	case 3:
-		return format_mp3_ChannelMode.Mono;
-	default:
-		throw haxe_Exception.thrown("assert");
-	}
-};
-var format_mp3_CEmphasis = function() { };
-$hxClasses["format.mp3.CEmphasis"] = format_mp3_CEmphasis;
-format_mp3_CEmphasis.__name__ = "format.mp3.CEmphasis";
-format_mp3_CEmphasis.num2Enum = function(c) {
-	switch(c) {
-	case 0:
-		return format_mp3_Emphasis.NoEmphasis;
-	case 1:
-		return format_mp3_Emphasis.Ms50_15;
-	case 2:
-		return format_mp3_Emphasis.InvalidEmphasis;
-	case 3:
-		return format_mp3_Emphasis.CCIT_J17;
-	default:
-		throw haxe_Exception.thrown("assert");
-	}
-};
-var format_mp3_MPEGVersion = $hxEnums["format.mp3.MPEGVersion"] = { __ename__:true,__constructs__:null
-	,MPEG_V1: {_hx_name:"MPEG_V1",_hx_index:0,__enum__:"format.mp3.MPEGVersion",toString:$estr}
-	,MPEG_V2: {_hx_name:"MPEG_V2",_hx_index:1,__enum__:"format.mp3.MPEGVersion",toString:$estr}
-	,MPEG_V25: {_hx_name:"MPEG_V25",_hx_index:2,__enum__:"format.mp3.MPEGVersion",toString:$estr}
-	,MPEG_Reserved: {_hx_name:"MPEG_Reserved",_hx_index:3,__enum__:"format.mp3.MPEGVersion",toString:$estr}
-};
-format_mp3_MPEGVersion.__constructs__ = [format_mp3_MPEGVersion.MPEG_V1,format_mp3_MPEGVersion.MPEG_V2,format_mp3_MPEGVersion.MPEG_V25,format_mp3_MPEGVersion.MPEG_Reserved];
-format_mp3_MPEGVersion.__empty_constructs__ = [format_mp3_MPEGVersion.MPEG_V1,format_mp3_MPEGVersion.MPEG_V2,format_mp3_MPEGVersion.MPEG_V25,format_mp3_MPEGVersion.MPEG_Reserved];
-var format_mp3_Layer = $hxEnums["format.mp3.Layer"] = { __ename__:true,__constructs__:null
-	,LayerReserved: {_hx_name:"LayerReserved",_hx_index:0,__enum__:"format.mp3.Layer",toString:$estr}
-	,Layer3: {_hx_name:"Layer3",_hx_index:1,__enum__:"format.mp3.Layer",toString:$estr}
-	,Layer2: {_hx_name:"Layer2",_hx_index:2,__enum__:"format.mp3.Layer",toString:$estr}
-	,Layer1: {_hx_name:"Layer1",_hx_index:3,__enum__:"format.mp3.Layer",toString:$estr}
-};
-format_mp3_Layer.__constructs__ = [format_mp3_Layer.LayerReserved,format_mp3_Layer.Layer3,format_mp3_Layer.Layer2,format_mp3_Layer.Layer1];
-format_mp3_Layer.__empty_constructs__ = [format_mp3_Layer.LayerReserved,format_mp3_Layer.Layer3,format_mp3_Layer.Layer2,format_mp3_Layer.Layer1];
-var format_mp3_ChannelMode = $hxEnums["format.mp3.ChannelMode"] = { __ename__:true,__constructs__:null
-	,Stereo: {_hx_name:"Stereo",_hx_index:0,__enum__:"format.mp3.ChannelMode",toString:$estr}
-	,JointStereo: {_hx_name:"JointStereo",_hx_index:1,__enum__:"format.mp3.ChannelMode",toString:$estr}
-	,DualChannel: {_hx_name:"DualChannel",_hx_index:2,__enum__:"format.mp3.ChannelMode",toString:$estr}
-	,Mono: {_hx_name:"Mono",_hx_index:3,__enum__:"format.mp3.ChannelMode",toString:$estr}
-};
-format_mp3_ChannelMode.__constructs__ = [format_mp3_ChannelMode.Stereo,format_mp3_ChannelMode.JointStereo,format_mp3_ChannelMode.DualChannel,format_mp3_ChannelMode.Mono];
-format_mp3_ChannelMode.__empty_constructs__ = [format_mp3_ChannelMode.Stereo,format_mp3_ChannelMode.JointStereo,format_mp3_ChannelMode.DualChannel,format_mp3_ChannelMode.Mono];
-var format_mp3_Emphasis = $hxEnums["format.mp3.Emphasis"] = { __ename__:true,__constructs__:null
-	,NoEmphasis: {_hx_name:"NoEmphasis",_hx_index:0,__enum__:"format.mp3.Emphasis",toString:$estr}
-	,Ms50_15: {_hx_name:"Ms50_15",_hx_index:1,__enum__:"format.mp3.Emphasis",toString:$estr}
-	,CCIT_J17: {_hx_name:"CCIT_J17",_hx_index:2,__enum__:"format.mp3.Emphasis",toString:$estr}
-	,InvalidEmphasis: {_hx_name:"InvalidEmphasis",_hx_index:3,__enum__:"format.mp3.Emphasis",toString:$estr}
-};
-format_mp3_Emphasis.__constructs__ = [format_mp3_Emphasis.NoEmphasis,format_mp3_Emphasis.Ms50_15,format_mp3_Emphasis.CCIT_J17,format_mp3_Emphasis.InvalidEmphasis];
-format_mp3_Emphasis.__empty_constructs__ = [format_mp3_Emphasis.NoEmphasis,format_mp3_Emphasis.Ms50_15,format_mp3_Emphasis.CCIT_J17,format_mp3_Emphasis.InvalidEmphasis];
-var format_mp3_FrameType = $hxEnums["format.mp3.FrameType"] = { __ename__:true,__constructs__:null
-	,FT_MP3: {_hx_name:"FT_MP3",_hx_index:0,__enum__:"format.mp3.FrameType",toString:$estr}
-	,FT_NONE: {_hx_name:"FT_NONE",_hx_index:1,__enum__:"format.mp3.FrameType",toString:$estr}
-};
-format_mp3_FrameType.__constructs__ = [format_mp3_FrameType.FT_MP3,format_mp3_FrameType.FT_NONE];
-format_mp3_FrameType.__empty_constructs__ = [format_mp3_FrameType.FT_MP3,format_mp3_FrameType.FT_NONE];
-var format_mp3_Reader = function(i) {
-	this.i = i;
-	i.set_bigEndian(true);
-	this.bits = new format_tools_BitsInput(i);
-	this.samples = 0;
-	this.sampleSize = 0;
-	this.any_read = false;
-};
-$hxClasses["format.mp3.Reader"] = format_mp3_Reader;
-format_mp3_Reader.__name__ = "format.mp3.Reader";
-format_mp3_Reader.prototype = {
-	skipID3v2: function() {
-		this.id3v2_version = this.i.readUInt16();
-		this.id3v2_flags = this.i.readByte();
-		var size = this.i.readByte() & 127;
-		size = size << 7 | this.i.readByte() & 127;
-		size = size << 7 | this.i.readByte() & 127;
-		size = size << 7 | this.i.readByte() & 127;
-		this.id3v2_data = this.i.read(size);
-	}
-	,seekFrame: function() {
-		try {
-			var b;
-			while(true) {
-				b = this.i.readByte();
-				if(!this.any_read) {
-					this.any_read = true;
-					if(b == 73) {
-						b = this.i.readByte();
-						if(b == 68) {
-							b = this.i.readByte();
-							if(b == 51) {
-								this.skipID3v2();
-							}
-						}
-					}
-				}
-				if(b == 255) {
-					this.bits.nbits = 0;
-					b = this.bits.readBits(3);
-					if(b == 7) {
-						return format_mp3_FrameType.FT_MP3;
-					}
-				}
-			}
-		} catch( _g ) {
-			if(((haxe_Exception.caught(_g).unwrap()) instanceof haxe_io_Eof)) {
-				return format_mp3_FrameType.FT_NONE;
-			} else {
-				throw _g;
-			}
-		}
-	}
-	,readFrames: function() {
-		var frames = [];
-		var ft;
-		while(true) {
-			ft = this.seekFrame();
-			if(!(ft != format_mp3_FrameType.FT_NONE)) {
-				break;
-			}
-			switch(ft._hx_index) {
-			case 0:
-				var f = this.readFrame();
-				if(f != null) {
-					frames.push(f);
-				}
-				break;
-			case 1:
-				break;
-			}
-		}
-		return frames;
-	}
-	,readFrameHeader: function() {
-		var version = this.bits.readBits(2);
-		var layer = this.bits.readBits(2);
-		var hasCrc = !this.bits.readBit();
-		if(version == format_mp3_MPEG.Reserved || layer == format_mp3_CLayer.LReserved) {
-			return null;
-		}
-		var bitrate = format_mp3_Tools.getBitrate(version,layer,this.bits.readBits(4));
-		var samplingRate = format_mp3_Tools.getSamplingRate(version,this.bits.readBits(2));
-		var isPadded = this.bits.readBit();
-		var privateBit = this.bits.readBit();
-		if(bitrate == format_mp3_Bitrate.BR_Bad || bitrate == format_mp3_Bitrate.BR_Free || samplingRate == format_mp3_SamplingRate.SR_Bad) {
-			return null;
-		}
-		var channelMode = this.bits.readBits(2);
-		var isIntensityStereo = this.bits.readBit();
-		var isMSStereo = this.bits.readBit();
-		var isCopyrighted = this.bits.readBit();
-		var isOriginal = this.bits.readBit();
-		var emphasis = this.bits.readBits(2);
-		var crc16 = 0;
-		if(hasCrc) {
-			crc16 = this.i.readUInt16();
-		}
-		return { version : format_mp3_MPEG.num2Enum(version), layer : format_mp3_CLayer.num2Enum(layer), hasCrc : hasCrc, crc16 : crc16, bitrate : bitrate, samplingRate : samplingRate, isPadded : isPadded, privateBit : privateBit, channelMode : format_mp3_CChannelMode.num2Enum(channelMode), isIntensityStereo : isIntensityStereo, isMSStereo : isMSStereo, isCopyrighted : isCopyrighted, isOriginal : isOriginal, emphasis : format_mp3_CEmphasis.num2Enum(emphasis)};
-	}
-	,readFrame: function() {
-		var header = this.readFrameHeader();
-		if(header == null || format_mp3_Tools.isInvalidFrameHeader(header)) {
-			return null;
-		}
-		try {
-			var data = this.i.read(format_mp3_Tools.getSampleDataSizeHdr(header));
-			this.samples += format_mp3_Tools.getSampleCountHdr(header);
-			this.sampleSize += data.length;
-			return { header : header, data : data};
-		} catch( _g ) {
-			if(((haxe_Exception.caught(_g).unwrap()) instanceof haxe_io_Eof)) {
-				return null;
-			} else {
-				throw _g;
-			}
-		}
-	}
-	,read: function() {
-		return { frames : this.readFrames(), sampleCount : this.samples, sampleSize : this.sampleSize, id3v2 : this.id3v2_data == null ? null : { versionBytes : this.id3v2_version, flagByte : this.id3v2_flags, data : this.id3v2_data}};
-	}
-	,__class__: format_mp3_Reader
-};
-var format_mp3_Tools = function() { };
-$hxClasses["format.mp3.Tools"] = format_mp3_Tools;
-format_mp3_Tools.__name__ = "format.mp3.Tools";
-format_mp3_Tools.getBitrate = function(mpegVersion,layerIdx,bitrateIdx) {
-	if(mpegVersion == format_mp3_MPEG.Reserved || layerIdx == format_mp3_CLayer.LReserved) {
-		return format_mp3_Bitrate.BR_Bad;
-	}
-	return (mpegVersion == 3 ? format_mp3_MPEG.V1_Bitrates : format_mp3_MPEG.V2_Bitrates)[layerIdx][bitrateIdx];
-};
-format_mp3_Tools.getSamplingRate = function(mpegVersion,samplingRateIdx) {
-	return format_mp3_MPEG.SamplingRates[mpegVersion][samplingRateIdx];
-};
-format_mp3_Tools.isInvalidFrameHeader = function(hdr) {
-	if(!(hdr.version == format_mp3_MPEGVersion.MPEG_Reserved || hdr.layer == format_mp3_Layer.LayerReserved || hdr.bitrate == format_mp3_Bitrate.BR_Bad || hdr.bitrate == format_mp3_Bitrate.BR_Free)) {
-		return hdr.samplingRate == format_mp3_SamplingRate.SR_Bad;
-	} else {
-		return true;
-	}
-};
-format_mp3_Tools.getSampleDataSize = function(mpegVersion,bitrate,samplingRate,isPadded,hasCrc) {
-	return ((mpegVersion == 3 ? 144 : 72) * bitrate * 1000 / samplingRate | 0) + (isPadded ? 1 : 0) - (hasCrc ? 2 : 0) - 4;
-};
-format_mp3_Tools.getSampleDataSizeHdr = function(hdr) {
-	return format_mp3_Tools.getSampleDataSize(format_mp3_MPEG.enum2Num(hdr.version),format_mp3_MPEG.bitrateEnum2Num(hdr.bitrate),format_mp3_MPEG.srEnum2Num(hdr.samplingRate),hdr.isPadded,hdr.hasCrc);
-};
-format_mp3_Tools.getSampleCount = function(mpegVersion) {
-	if(mpegVersion == 3) {
-		return 1152;
-	} else {
-		return 576;
-	}
-};
-format_mp3_Tools.getSampleCountHdr = function(hdr) {
-	return format_mp3_Tools.getSampleCount(format_mp3_MPEG.enum2Num(hdr.version));
 };
 var format_png_Color = $hxEnums["format.png.Color"] = { __ename__:true,__constructs__:null
 	,ColGrey: ($_=function(alpha) { return {_hx_index:0,alpha:alpha,__enum__:"format.png.Color",toString:$estr}; },$_._hx_name="ColGrey",$_.__params__ = ["alpha"],$_)
@@ -2795,152 +2394,11 @@ format_tga_Reader.prototype = {
 	}
 	,__class__: format_tga_Reader
 };
-var format_tools_BitsInput = function(i) {
-	this.i = i;
-	this.nbits = 0;
-	this.bits = 0;
-};
-$hxClasses["format.tools.BitsInput"] = format_tools_BitsInput;
-format_tools_BitsInput.__name__ = "format.tools.BitsInput";
-format_tools_BitsInput.prototype = {
-	readBits: function(n) {
-		if(this.nbits >= n) {
-			var c = this.nbits - n;
-			this.nbits = c;
-			return this.bits >>> c & (1 << n) - 1;
-		}
-		var k = this.i.readByte();
-		if(this.nbits >= 24) {
-			if(n > 31) {
-				throw haxe_Exception.thrown("Bits error");
-			}
-			var c = 8 + this.nbits - n;
-			var d = this.bits & (1 << this.nbits) - 1;
-			d = d << 8 - c | k << c;
-			this.bits = k;
-			this.nbits = c;
-			return d;
-		}
-		this.bits = this.bits << 8 | k;
-		this.nbits += 8;
-		return this.readBits(n);
-	}
-	,readBit: function() {
-		if(this.nbits == 0) {
-			this.bits = this.i.readByte();
-			this.nbits = 8;
-		}
-		this.nbits--;
-		return (this.bits >>> this.nbits & 1) == 1;
-	}
-	,__class__: format_tools_BitsInput
-};
 var format_tools_Inflate = function() { };
 $hxClasses["format.tools.Inflate"] = format_tools_Inflate;
 format_tools_Inflate.__name__ = "format.tools.Inflate";
 format_tools_Inflate.run = function(bytes) {
 	return haxe_zip_Uncompress.run(bytes);
-};
-var format_wav_WAVEFormat = $hxEnums["format.wav.WAVEFormat"] = { __ename__:true,__constructs__:null
-	,WF_PCM: {_hx_name:"WF_PCM",_hx_index:0,__enum__:"format.wav.WAVEFormat",toString:$estr}
-};
-format_wav_WAVEFormat.__constructs__ = [format_wav_WAVEFormat.WF_PCM];
-format_wav_WAVEFormat.__empty_constructs__ = [format_wav_WAVEFormat.WF_PCM];
-var format_wav_Reader = function(i) {
-	this.i = i;
-	i.set_bigEndian(false);
-};
-$hxClasses["format.wav.Reader"] = format_wav_Reader;
-format_wav_Reader.__name__ = "format.wav.Reader";
-format_wav_Reader.prototype = {
-	read: function() {
-		if(this.i.readString(4) != "RIFF") {
-			throw haxe_Exception.thrown("RIFF header expected");
-		}
-		this.i.readInt32();
-		if(this.i.readString(4) != "WAVE") {
-			throw haxe_Exception.thrown("WAVE signature not found");
-		}
-		var fmt = this.i.readString(4);
-		_hx_loop1: while(fmt != "fmt ") switch(fmt) {
-		case "JUNK":
-			var junkLen = this.i.readInt32();
-			this.i.read(junkLen);
-			fmt = this.i.readString(4);
-			break;
-		case "bext":
-			var bextLen = this.i.readInt32();
-			this.i.read(bextLen);
-			fmt = this.i.readString(4);
-			break;
-		default:
-			break _hx_loop1;
-		}
-		if(fmt != "fmt ") {
-			throw haxe_Exception.thrown("unsupported wave chunk " + fmt);
-		}
-		var fmtlen = this.i.readInt32();
-		var format;
-		switch(this.i.readUInt16()) {
-		case 1:case 3:
-			format = format_wav_WAVEFormat.WF_PCM;
-			break;
-		default:
-			throw haxe_Exception.thrown("only PCM (uncompressed) WAV files are supported");
-		}
-		var channels = this.i.readUInt16();
-		var samplingRate = this.i.readInt32();
-		var byteRate = this.i.readInt32();
-		var blockAlign = this.i.readUInt16();
-		var bitsPerSample = this.i.readUInt16();
-		if(fmtlen > 16) {
-			this.i.read(fmtlen - 16);
-		}
-		var nextChunk = this.i.readString(4);
-		while(nextChunk != "data") {
-			this.i.read(this.i.readInt32());
-			nextChunk = this.i.readString(4);
-		}
-		if(nextChunk != "data") {
-			throw haxe_Exception.thrown("expected data subchunk");
-		}
-		var datalen = this.i.readInt32();
-		var data;
-		try {
-			data = this.i.read(datalen);
-		} catch( _g ) {
-			if(((haxe_Exception.caught(_g).unwrap()) instanceof haxe_io_Eof)) {
-				throw haxe_Exception.thrown("Invalid chunk data length");
-			} else {
-				throw _g;
-			}
-		}
-		var cuePoints = [];
-		try {
-			while(true) if(this.i.readString(4) == "cue ") {
-				this.i.readInt32();
-				var nbCuePoints = this.i.readInt32();
-				var _g = 0;
-				while(_g < nbCuePoints) {
-					++_g;
-					var cueId = this.i.readInt32();
-					this.i.readInt32();
-					this.i.readString(4);
-					this.i.readInt32();
-					this.i.readInt32();
-					cuePoints.push({ id : cueId, sampleOffset : this.i.readInt32()});
-				}
-			} else {
-				this.i.read(this.i.readInt32());
-			}
-		} catch( _g ) {
-			if(!((haxe_Exception.caught(_g).unwrap()) instanceof haxe_io_Eof)) {
-				throw _g;
-			}
-		}
-		return { header : { format : format, channels : channels, samplingRate : samplingRate, byteRate : byteRate, blockAlign : blockAlign, bitsPerSample : bitsPerSample}, data : data, cuePoints : cuePoints};
-	}
-	,__class__: format_wav_Reader
 };
 var h2d_col_Point = function(x,y) {
 	if(y == null) {
@@ -3014,6 +2472,16 @@ h2d_Object.prototype = {
 		m.x = this.absX;
 		m.y = this.absY;
 		return m;
+	}
+	,set_filter: function(f) {
+		if(this.filter != null && this.allocated) {
+			this.filter.unbind(this);
+		}
+		this.filter = f;
+		if(f != null && this.allocated) {
+			f.bind(this);
+		}
+		return f;
 	}
 	,getBoundsRec: function(relativeTo,out,forSize) {
 		if(this.posChanged) {
@@ -3324,6 +2792,14 @@ h2d_Object.prototype = {
 				c.onRemove();
 			}
 		}
+	}
+	,getMatrix: function(m) {
+		m.a = this.matA;
+		m.b = this.matB;
+		m.c = this.matC;
+		m.d = this.matD;
+		m.x = this.absX;
+		m.y = this.absY;
 	}
 	,removeChild: function(s) {
 		if(HxOverrides.remove(this.children,s)) {
@@ -3896,6 +3372,15 @@ h2d_Object.prototype = {
 		}
 		return -1;
 	}
+	,toString: function() {
+		var c = js_Boot.getClass(this);
+		var c1 = c.__name__;
+		if(this.name == null) {
+			return c1;
+		} else {
+			return this.name + "(" + c1 + ")";
+		}
+	}
 	,contentChanged: function(s) {
 	}
 	,constraintSize: function(maxWidth,maxHeight) {
@@ -3949,6 +3434,52 @@ h2d_Drawable.prototype = $extend(h2d_Object.prototype,{
 		}
 	}
 	,__class__: h2d_Drawable
+});
+var h2d_Bitmap = function(tile,parent) {
+	h2d_Drawable.call(this,parent);
+	this.set_tile(tile);
+};
+$hxClasses["h2d.Bitmap"] = h2d_Bitmap;
+h2d_Bitmap.__name__ = "h2d.Bitmap";
+h2d_Bitmap.__super__ = h2d_Drawable;
+h2d_Bitmap.prototype = $extend(h2d_Drawable.prototype,{
+	getBoundsRec: function(relativeTo,out,forSize) {
+		h2d_Drawable.prototype.getBoundsRec.call(this,relativeTo,out,forSize);
+		if(this.tile != null) {
+			if(this.width == null && this.height == null) {
+				this.addBounds(relativeTo,out,this.tile.dx,this.tile.dy,this.tile.width,this.tile.height);
+			} else {
+				this.addBounds(relativeTo,out,this.tile.dx,this.tile.dy,this.width != null ? this.width : this.tile.width * this.height / this.tile.height,this.height != null ? this.height : this.tile.height * this.width / this.tile.width);
+			}
+		}
+	}
+	,set_tile: function(t) {
+		if(this.tile == t) {
+			return t;
+		}
+		this.tile = t;
+		if(this.parentContainer != null) {
+			this.parentContainer.contentChanged(this);
+		}
+		return t;
+	}
+	,draw: function(ctx) {
+		if(this.width == null && this.height == null) {
+			this.emitTile(ctx,this.tile);
+			return;
+		}
+		if(this.tile == null) {
+			this.set_tile(h2d_Tile.fromColor(16711935));
+		}
+		var ow = this.tile.width;
+		var oh = this.tile.height;
+		this.tile.width = this.width != null ? this.width : ow * this.height / oh;
+		this.tile.height = this.height != null ? this.height : oh * this.width / ow;
+		this.emitTile(ctx,this.tile);
+		this.tile.width = ow;
+		this.tile.height = oh;
+	}
+	,__class__: h2d_Bitmap
 });
 var h2d_BlendMode = $hxEnums["h2d.BlendMode"] = { __ename__:true,__constructs__:null
 	,None: {_hx_name:"None",_hx_index:0,__enum__:"h2d.BlendMode",toString:$estr}
@@ -4153,6 +3684,20 @@ h2d_Flow.prototype = $extend(h2d_Object.prototype,{
 		this.set_needReflow(true);
 		return this.properties[this.getChildIndex(e)];
 	}
+	,set_horizontalAlign: function(v) {
+		if(this.horizontalAlign == v) {
+			return v;
+		}
+		this.set_needReflow(true);
+		return this.horizontalAlign = v;
+	}
+	,set_verticalAlign: function(v) {
+		if(this.verticalAlign == v) {
+			return v;
+		}
+		this.set_needReflow(true);
+		return this.verticalAlign = v;
+	}
 	,set_needReflow: function(v) {
 		if(this.needReflow == v) {
 			return v;
@@ -4163,13 +3708,6 @@ h2d_Flow.prototype = $extend(h2d_Object.prototype,{
 			}
 		}
 		return this.needReflow = v;
-	}
-	,set_padding: function(v) {
-		this.set_paddingLeft(v);
-		this.set_paddingTop(v);
-		this.set_paddingRight(v);
-		this.set_paddingBottom(v);
-		return v;
 	}
 	,set_scrollPosY: function(v) {
 		if(this.needReflow) {
@@ -4221,33 +3759,19 @@ h2d_Flow.prototype = $extend(h2d_Object.prototype,{
 		}
 		return Math.ceil(this.calculatedHeight) - (this.paddingTop + this.paddingBottom);
 	}
-	,set_paddingLeft: function(v) {
-		if(this.paddingLeft == v) {
+	,set_fillWidth: function(v) {
+		if(this.fillWidth == v) {
 			return v;
 		}
 		this.set_needReflow(true);
-		return this.paddingLeft = v;
+		return this.fillWidth = v;
 	}
-	,set_paddingRight: function(v) {
-		if(this.paddingRight == v) {
+	,set_fillHeight: function(v) {
+		if(this.fillHeight == v) {
 			return v;
 		}
 		this.set_needReflow(true);
-		return this.paddingRight = v;
-	}
-	,set_paddingTop: function(v) {
-		if(this.paddingTop == v) {
-			return v;
-		}
-		this.set_needReflow(true);
-		return this.paddingTop = v;
-	}
-	,set_paddingBottom: function(v) {
-		if(this.paddingBottom == v) {
-			return v;
-		}
-		this.set_needReflow(true);
-		return this.paddingBottom = v;
+		return this.fillHeight = v;
 	}
 	,constraintSize: function(width,height) {
 		this.constraintWidth = width;
@@ -7440,6 +6964,27 @@ h2d_RenderContext.prototype = $extend(h3d_impl_RenderContext.prototype,{
 			this.inFilter.scaleY = scaleY;
 		}
 	}
+	,getFilterScale: function(into) {
+		if(into == null) {
+			into = new h2d_col_Point();
+		}
+		if(this.inFilter != null) {
+			var x = this.inFilter.scaleX;
+			var y = this.inFilter.scaleY;
+			if(y == null) {
+				y = 0.;
+			}
+			if(x == null) {
+				x = 0.;
+			}
+			into.x = x;
+			into.y = y;
+		} else {
+			into.x = 1;
+			into.y = 1;
+		}
+		return into;
+	}
 	,popFilter: function() {
 		this.inFilter.spr = null;
 		this.filterStackIndex--;
@@ -10367,12 +9912,49 @@ var h2d_col_Matrix = function() {
 $hxClasses["h2d.col.Matrix"] = h2d_col_Matrix;
 h2d_col_Matrix.__name__ = "h2d.col.Matrix";
 h2d_col_Matrix.prototype = {
-	__class__: h2d_col_Matrix
+	invert: function() {
+		this.inverse(this);
+	}
+	,inverse: function(m) {
+		var a = m.a;
+		var b = m.b;
+		var c = m.c;
+		var d = m.d;
+		var x = m.x;
+		var y = m.y;
+		var invDet = 1 / (this.a * this.d - this.b * this.c);
+		this.a = d * invDet;
+		this.b = -b * invDet;
+		this.c = -c * invDet;
+		this.d = a * invDet;
+		this.x = (-x * d + c * y) * invDet;
+		this.y = (x * b - a * y) * invDet;
+	}
+	,multiply: function(a,b) {
+		var aa = a.a;
+		var ab = a.b;
+		var ac = a.c;
+		var ad = a.d;
+		var ax = a.x;
+		var ay = a.y;
+		var ba = b.a;
+		var bb = b.b;
+		var bc = b.c;
+		var bd = b.d;
+		this.a = aa * ba + ab * bc;
+		this.b = aa * bb + ab * bd;
+		this.c = ac * ba + ad * bc;
+		this.d = ac * bb + ad * bd;
+		this.x = ax * ba + ay * bc + b.x;
+		this.y = ax * bb + ay * bd + b.y;
+	}
+	,__class__: h2d_col_Matrix
 };
 var h2d_filter_Filter = function() {
 	this.useScreenResolution = h2d_filter_Filter.defaultUseScreenResolution;
 	this.resolutionScale = 1;
 	this.enable = true;
+	this.smooth = false;
 	this.boundsExtend = 0.;
 	this.autoBounds = true;
 };
@@ -10400,6 +9982,408 @@ h2d_filter_Filter.prototype = {
 	}
 	,__class__: h2d_filter_Filter
 };
+var h2d_filter_Hide = function() {
+	h2d_filter_Filter.call(this);
+	this.boundsExtend = 1;
+};
+$hxClasses["h2d.filter.Hide"] = h2d_filter_Hide;
+h2d_filter_Hide.__name__ = "h2d.filter.Hide";
+h2d_filter_Hide.__super__ = h2d_filter_Filter;
+h2d_filter_Hide.prototype = $extend(h2d_filter_Filter.prototype,{
+	draw: function(ctx,input) {
+		this.frame = ctx.frame;
+		this.input = input;
+		this.inputWidth = Math.ceil(input.width + input.x) - Math.floor(input.x);
+		this.inputHeight = Math.ceil(input.height + input.y) - Math.floor(input.y);
+		if(this.maskVisible) {
+			return input;
+		} else {
+			return null;
+		}
+	}
+	,__class__: h2d_filter_Hide
+});
+var h2d_filter_AbstractMask = function(mask) {
+	this.bindCount = 0;
+	h2d_filter_Filter.call(this);
+	this.hide = new h2d_filter_Hide();
+	this.set_mask(mask);
+	this.maskMatrix = new h2d_col_Matrix();
+	this.tmpMatrix = new h2d_col_Matrix();
+};
+$hxClasses["h2d.filter.AbstractMask"] = h2d_filter_AbstractMask;
+h2d_filter_AbstractMask.__name__ = "h2d.filter.AbstractMask";
+h2d_filter_AbstractMask.__super__ = h2d_filter_Filter;
+h2d_filter_AbstractMask.prototype = $extend(h2d_filter_Filter.prototype,{
+	set_maskVisible: function(b) {
+		this.hide.maskVisible = b;
+		return this.maskVisible = b;
+	}
+	,bind: function(s) {
+		this.bindCount++;
+		if(this.bindCount == 1) {
+			this.set_mask(this.mask);
+		}
+	}
+	,unbind: function(s) {
+		this.bindCount--;
+		if(this.bindCount == 0) {
+			this.set_mask(this.mask);
+		}
+	}
+	,set_mask: function(m) {
+		if(this.mask != null) {
+			if(this.mask.filter == this.hide) {
+				this.mask.set_filter(null);
+			}
+		}
+		this.mask = m;
+		if(m != null && this.bindCount > 0) {
+			if(m.filter != null) {
+				if(((m.filter) instanceof h2d_filter_Hide)) {
+					throw haxe_Exception.thrown("Same mask can't be part of several filters");
+				}
+				throw haxe_Exception.thrown("Can't set mask with filter " + Std.string(m.filter));
+			}
+			m.set_filter(this.hide);
+		}
+		this.hide.input = null;
+		return m;
+	}
+	,getMaskTexture: function(ctx,tile) {
+		var t = this.hide.input == null ? null : this.hide.input.innerTex;
+		if(t == null) {
+			return null;
+		}
+		this.mask.getMatrix(this.maskMatrix);
+		var _this = this.maskMatrix;
+		var x = this.hide.input.dx;
+		var y = this.hide.input.dy;
+		_this.x += _this.a * x + _this.c * y;
+		_this.y += _this.b * x + _this.d * y;
+		this.maskMatrix.invert();
+		this.obj.getMatrix(this.tmpMatrix);
+		var _this = this.tmpMatrix;
+		var x = tile.dx;
+		var y = tile.dy;
+		_this.x += _this.a * x + _this.c * y;
+		_this.y += _this.b * x + _this.d * y;
+		this.maskMatrix.multiply(this.tmpMatrix,this.maskMatrix);
+		var resolutionScale = ctx.getFilterScale(h2d_Object.tmpPoint);
+		this.maskMatrix.x /= tile.width / resolutionScale.x;
+		this.maskMatrix.y /= tile.height / resolutionScale.y;
+		var _this = this.maskMatrix;
+		var sx = tile.width / this.hide.inputWidth;
+		var sy = tile.height / this.hide.inputHeight;
+		_this.a *= sx;
+		_this.c *= sx;
+		_this.x *= sx;
+		_this.b *= sy;
+		_this.d *= sy;
+		_this.y *= sy;
+		t.set_filter(this.smooth ? h3d_mat_Filter.Linear : h3d_mat_Filter.Nearest);
+		return t;
+	}
+	,sync: function(ctx,obj) {
+		this.obj = obj;
+		if(this.mask == null || this.hide.frame != ctx.frame) {
+			var p = obj;
+			while(p != null) {
+				if(p == this.mask) {
+					throw haxe_Exception.thrown("You can't mask with one of the object parents");
+				}
+				p = p.parent;
+			}
+			this.hide.input = null;
+		}
+	}
+	,__class__: h2d_filter_AbstractMask
+});
+var hxsl_Shader = function() {
+	this.priority = 0;
+	this.initialize();
+};
+$hxClasses["hxsl.Shader"] = hxsl_Shader;
+hxsl_Shader.__name__ = "hxsl.Shader";
+hxsl_Shader.prototype = {
+	initialize: function() {
+		this.constModified = true;
+		if(this.shader != null) {
+			return;
+		}
+		var cl = js_Boot.getClass(this);
+		this.shader = cl._SHADER;
+		if(this.shader == null) {
+			var curClass = cl;
+			while(curClass != null && curClass.SRC == null) curClass = curClass.__super__;
+			if(curClass == null) {
+				throw haxe_Exception.thrown(cl.__name__ + " has no shader source");
+			}
+			this.shader = curClass._SHADER;
+			if(this.shader == null) {
+				this.shader = new hxsl_SharedShader(curClass.SRC);
+				curClass._SHADER = this.shader;
+			}
+		}
+	}
+	,setPriority: function(v) {
+		this.priority = v;
+	}
+	,getParamValue: function(index) {
+		throw haxe_Exception.thrown("assert");
+	}
+	,getParamFloatValue: function(index) {
+		throw haxe_Exception.thrown("assert");
+	}
+	,updateConstants: function(globals) {
+		throw haxe_Exception.thrown("assert");
+	}
+	,updateConstantsFinal: function(globals) {
+		var c = this.shader.consts;
+		while(c != null) {
+			if(c.globalId == 0) {
+				c = c.next;
+				continue;
+			}
+			var v = globals.map.h[c.globalId];
+			var _g = c.v.type;
+			switch(_g._hx_index) {
+			case 1:
+				var v1 = v;
+				if(v1 >>> c.bits != 0) {
+					throw haxe_Exception.thrown("Constant " + c.v.name + " is outside range (" + v1 + " > " + ((1 << c.bits) - 1) + ")");
+				}
+				this.constBits |= v1 << c.pos;
+				break;
+			case 2:
+				if(v) {
+					this.constBits |= 1 << c.pos;
+				}
+				break;
+			case 17:
+				if(v == null) {
+					c = c.next;
+					continue;
+				}
+				var v2 = v;
+				var sel = v2.channel;
+				if(v2.texture == null) {
+					sel = hxsl_Channel.Unknown;
+				} else if(sel == null || sel == hxsl_Channel.Unknown) {
+					switch(_g.size) {
+					case 1:
+						if(v2.texture.format == h3d_mat_Texture.nativeFormat) {
+							sel = hxsl_Channel.PackedFloat;
+						} else {
+							throw haxe_Exception.thrown("Constant " + c.v.name + " does not define channel select value");
+						}
+						break;
+					case 3:
+						if(v2.texture.format == h3d_mat_Texture.nativeFormat) {
+							sel = hxsl_Channel.PackedNormal;
+						} else {
+							throw haxe_Exception.thrown("Constant " + c.v.name + " does not define channel select value");
+						}
+						break;
+					default:
+						throw haxe_Exception.thrown("Constant " + c.v.name + " does not define channel select value");
+					}
+				}
+				this.constBits |= (globals.allocChannelID(v2.texture) << 3 | sel._hx_index) << c.pos;
+				break;
+			default:
+				throw haxe_Exception.thrown("assert");
+			}
+			c = c.next;
+		}
+		var _this = this.shader;
+		var constBits = this.constBits;
+		var i = _this.instanceCache.h[constBits];
+		this.instance = i == null ? _this.makeInstance(constBits) : i;
+	}
+	,toString: function() {
+		var c = js_Boot.getClass(this);
+		return c.__name__;
+	}
+	,__class__: hxsl_Shader
+};
+var h3d_shader_ScreenShader = function() {
+	this.flipY__ = 0;
+	hxsl_Shader.call(this);
+};
+$hxClasses["h3d.shader.ScreenShader"] = h3d_shader_ScreenShader;
+h3d_shader_ScreenShader.__name__ = "h3d.shader.ScreenShader";
+h3d_shader_ScreenShader.__super__ = hxsl_Shader;
+h3d_shader_ScreenShader.prototype = $extend(hxsl_Shader.prototype,{
+	get_flipY: function() {
+		return this.flipY__;
+	}
+	,set_flipY: function(_v) {
+		return this.flipY__ = _v;
+	}
+	,updateConstants: function(globals) {
+		this.constBits = 0;
+		this.updateConstantsFinal(globals);
+	}
+	,getParamValue: function(index) {
+		if(index == 0) {
+			return this.flipY__;
+		}
+		return null;
+	}
+	,getParamFloatValue: function(index) {
+		if(index == 0) {
+			return this.flipY__;
+		}
+		return 0.;
+	}
+	,__class__: h3d_shader_ScreenShader
+});
+var h2d_filter__$Mask_MaskShader = function() {
+	this.maskMatB__ = new h3d_Vector();
+	this.maskMatA__ = new h3d_Vector();
+	h3d_shader_ScreenShader.call(this);
+};
+$hxClasses["h2d.filter._Mask.MaskShader"] = h2d_filter__$Mask_MaskShader;
+h2d_filter__$Mask_MaskShader.__name__ = "h2d.filter._Mask.MaskShader";
+h2d_filter__$Mask_MaskShader.__super__ = h3d_shader_ScreenShader;
+h2d_filter__$Mask_MaskShader.prototype = $extend(h3d_shader_ScreenShader.prototype,{
+	get_texture: function() {
+		return this.texture__;
+	}
+	,set_texture: function(_v) {
+		return this.texture__ = _v;
+	}
+	,get_mask: function() {
+		return this.mask__;
+	}
+	,set_mask: function(_v) {
+		return this.mask__ = _v;
+	}
+	,get_maskMatA: function() {
+		return this.maskMatA__;
+	}
+	,set_maskMatA: function(_v) {
+		return this.maskMatA__ = _v;
+	}
+	,get_maskMatB: function() {
+		return this.maskMatB__;
+	}
+	,set_maskMatB: function(_v) {
+		return this.maskMatB__ = _v;
+	}
+	,get_smoothAlpha: function() {
+		return this.smoothAlpha__;
+	}
+	,set_smoothAlpha: function(_v) {
+		this.constModified = true;
+		return this.smoothAlpha__ = _v;
+	}
+	,updateConstants: function(globals) {
+		this.constBits = 0;
+		if(this.smoothAlpha__) {
+			this.constBits |= 1;
+		}
+		this.updateConstantsFinal(globals);
+	}
+	,getParamValue: function(index) {
+		switch(index) {
+		case 0:
+			return this.flipY__;
+		case 1:
+			return this.texture__;
+		case 2:
+			return this.mask__;
+		case 3:
+			return this.maskMatA__;
+		case 4:
+			return this.maskMatB__;
+		case 5:
+			return this.smoothAlpha__;
+		default:
+		}
+		return null;
+	}
+	,getParamFloatValue: function(index) {
+		if(index == 0) {
+			return this.flipY__;
+		}
+		return 0.;
+	}
+	,__class__: h2d_filter__$Mask_MaskShader
+});
+var h2d_filter_Mask = function(mask,maskVisible,smoothAlpha) {
+	if(smoothAlpha == null) {
+		smoothAlpha = false;
+	}
+	if(maskVisible == null) {
+		maskVisible = false;
+	}
+	h2d_filter_AbstractMask.call(this,mask);
+	this.pass = new h3d_pass_ScreenFx(new h2d_filter__$Mask_MaskShader());
+	this.set_maskVisible(maskVisible);
+	this.set_smoothAlpha(smoothAlpha);
+};
+$hxClasses["h2d.filter.Mask"] = h2d_filter_Mask;
+h2d_filter_Mask.__name__ = "h2d.filter.Mask";
+h2d_filter_Mask.__super__ = h2d_filter_AbstractMask;
+h2d_filter_Mask.prototype = $extend(h2d_filter_AbstractMask.prototype,{
+	set_smoothAlpha: function(v) {
+		var _this = this.pass.shader;
+		_this.constModified = true;
+		return _this.smoothAlpha__ = v;
+	}
+	,draw: function(ctx,t) {
+		if(this.getMaskTexture(ctx,t) == null) {
+			if(this.mask == null) {
+				throw haxe_Exception.thrown("Mask filter has no mask object");
+			}
+			return null;
+		}
+		var out = ctx.textures.allocTileTarget("maskTmp",t);
+		ctx.engine.pushTarget(out);
+		this.pass.shader.texture__ = t.innerTex;
+		this.pass.shader.mask__ = this.getMaskTexture(ctx,t);
+		var _this = this.pass.shader.maskMatA__;
+		var x = this.maskMatrix.a;
+		var y = this.maskMatrix.c;
+		var z = this.maskMatrix.x;
+		if(z == null) {
+			z = 0.;
+		}
+		if(y == null) {
+			y = 0.;
+		}
+		if(x == null) {
+			x = 0.;
+		}
+		_this.x = x;
+		_this.y = y;
+		_this.z = z;
+		_this.w = 1.;
+		var _this = this.pass.shader.maskMatB__;
+		var x = this.maskMatrix.b;
+		var y = this.maskMatrix.d;
+		var z = this.maskMatrix.y;
+		if(z == null) {
+			z = 0.;
+		}
+		if(y == null) {
+			y = 0.;
+		}
+		if(x == null) {
+			x = 0.;
+		}
+		_this.x = x;
+		_this.y = y;
+		_this.z = z;
+		_this.w = 1.;
+		this.pass.render();
+		ctx.engine.popTarget();
+		return h2d_Tile.fromTexture(out);
+	}
+	,__class__: h2d_filter_Mask
+});
 var h2d_impl_BatchDrawState = function() {
 	this.head = this.tail = new h2d_impl__$BatchDrawState_StateEntry(null);
 	this.totalCount = 0;
@@ -15177,6 +15161,12 @@ h3d_impl_TextureCache.prototype = {
 		this.position++;
 		return t;
 	}
+	,allocTileTarget: function(name,tile,defaultDepth,format) {
+		if(defaultDepth == null) {
+			defaultDepth = false;
+		}
+		return this.allocTarget(name,Math.ceil(tile.width + tile.x) - Math.floor(tile.x),Math.ceil(tile.height + tile.y) - Math.floor(tile.y),defaultDepth,format);
+	}
 	,__class__: h3d_impl_TextureCache
 };
 var hxd_impl_AnyProps = function() { };
@@ -16446,146 +16436,6 @@ h3d_pass_Blur.prototype = $extend(h3d_pass_ScreenFx.prototype,{
 		output.depthBuffer = outDepth;
 	}
 	,__class__: h3d_pass_Blur
-});
-var hxsl_Shader = function() {
-	this.priority = 0;
-	this.initialize();
-};
-$hxClasses["hxsl.Shader"] = hxsl_Shader;
-hxsl_Shader.__name__ = "hxsl.Shader";
-hxsl_Shader.prototype = {
-	initialize: function() {
-		this.constModified = true;
-		if(this.shader != null) {
-			return;
-		}
-		var cl = js_Boot.getClass(this);
-		this.shader = cl._SHADER;
-		if(this.shader == null) {
-			var curClass = cl;
-			while(curClass != null && curClass.SRC == null) curClass = curClass.__super__;
-			if(curClass == null) {
-				throw haxe_Exception.thrown(cl.__name__ + " has no shader source");
-			}
-			this.shader = curClass._SHADER;
-			if(this.shader == null) {
-				this.shader = new hxsl_SharedShader(curClass.SRC);
-				curClass._SHADER = this.shader;
-			}
-		}
-	}
-	,setPriority: function(v) {
-		this.priority = v;
-	}
-	,getParamValue: function(index) {
-		throw haxe_Exception.thrown("assert");
-	}
-	,getParamFloatValue: function(index) {
-		throw haxe_Exception.thrown("assert");
-	}
-	,updateConstants: function(globals) {
-		throw haxe_Exception.thrown("assert");
-	}
-	,updateConstantsFinal: function(globals) {
-		var c = this.shader.consts;
-		while(c != null) {
-			if(c.globalId == 0) {
-				c = c.next;
-				continue;
-			}
-			var v = globals.map.h[c.globalId];
-			var _g = c.v.type;
-			switch(_g._hx_index) {
-			case 1:
-				var v1 = v;
-				if(v1 >>> c.bits != 0) {
-					throw haxe_Exception.thrown("Constant " + c.v.name + " is outside range (" + v1 + " > " + ((1 << c.bits) - 1) + ")");
-				}
-				this.constBits |= v1 << c.pos;
-				break;
-			case 2:
-				if(v) {
-					this.constBits |= 1 << c.pos;
-				}
-				break;
-			case 17:
-				if(v == null) {
-					c = c.next;
-					continue;
-				}
-				var v2 = v;
-				var sel = v2.channel;
-				if(v2.texture == null) {
-					sel = hxsl_Channel.Unknown;
-				} else if(sel == null || sel == hxsl_Channel.Unknown) {
-					switch(_g.size) {
-					case 1:
-						if(v2.texture.format == h3d_mat_Texture.nativeFormat) {
-							sel = hxsl_Channel.PackedFloat;
-						} else {
-							throw haxe_Exception.thrown("Constant " + c.v.name + " does not define channel select value");
-						}
-						break;
-					case 3:
-						if(v2.texture.format == h3d_mat_Texture.nativeFormat) {
-							sel = hxsl_Channel.PackedNormal;
-						} else {
-							throw haxe_Exception.thrown("Constant " + c.v.name + " does not define channel select value");
-						}
-						break;
-					default:
-						throw haxe_Exception.thrown("Constant " + c.v.name + " does not define channel select value");
-					}
-				}
-				this.constBits |= (globals.allocChannelID(v2.texture) << 3 | sel._hx_index) << c.pos;
-				break;
-			default:
-				throw haxe_Exception.thrown("assert");
-			}
-			c = c.next;
-		}
-		var _this = this.shader;
-		var constBits = this.constBits;
-		var i = _this.instanceCache.h[constBits];
-		this.instance = i == null ? _this.makeInstance(constBits) : i;
-	}
-	,toString: function() {
-		var c = js_Boot.getClass(this);
-		return c.__name__;
-	}
-	,__class__: hxsl_Shader
-};
-var h3d_shader_ScreenShader = function() {
-	this.flipY__ = 0;
-	hxsl_Shader.call(this);
-};
-$hxClasses["h3d.shader.ScreenShader"] = h3d_shader_ScreenShader;
-h3d_shader_ScreenShader.__name__ = "h3d.shader.ScreenShader";
-h3d_shader_ScreenShader.__super__ = hxsl_Shader;
-h3d_shader_ScreenShader.prototype = $extend(hxsl_Shader.prototype,{
-	get_flipY: function() {
-		return this.flipY__;
-	}
-	,set_flipY: function(_v) {
-		return this.flipY__ = _v;
-	}
-	,updateConstants: function(globals) {
-		this.constBits = 0;
-		this.updateConstantsFinal(globals);
-	}
-	,getParamValue: function(index) {
-		if(index == 0) {
-			return this.flipY__;
-		}
-		return null;
-	}
-	,getParamFloatValue: function(index) {
-		if(index == 0) {
-			return this.flipY__;
-		}
-		return 0.;
-	}
-	,__class__: h3d_shader_ScreenShader
 });
 var h3d_pass__$Border_BorderShader = function() {
 	this.color__ = new h3d_Vector();
@@ -24002,12 +23852,6 @@ haxe_io_Bytes.prototype = {
 		}
 		return this.data.getUint16(pos,true);
 	}
-	,setUInt16: function(pos,v) {
-		if(this.data == null) {
-			this.data = new DataView(this.b.buffer,this.b.byteOffset,this.b.byteLength);
-		}
-		this.data.setUint16(pos,v,true);
-	}
 	,getInt32: function(pos) {
 		if(this.data == null) {
 			this.data = new DataView(this.b.buffer,this.b.byteOffset,this.b.byteLength);
@@ -29773,22 +29617,6 @@ hxd_impl_Allocator.prototype = {
 	}
 	,__class__: hxd_impl_Allocator
 };
-var hxd_impl_ArrayIterator_$hxd_$snd_$Channel = function(a) {
-	this.i = 0;
-	this.a = a;
-	this.l = this.a.length;
-};
-$hxClasses["hxd.impl.ArrayIterator_hxd_snd_Channel"] = hxd_impl_ArrayIterator_$hxd_$snd_$Channel;
-hxd_impl_ArrayIterator_$hxd_$snd_$Channel.__name__ = "hxd.impl.ArrayIterator_hxd_snd_Channel";
-hxd_impl_ArrayIterator_$hxd_$snd_$Channel.prototype = {
-	hasNext: function() {
-		return this.i < this.l;
-	}
-	,next: function() {
-		return this.a[this.i++];
-	}
-	,__class__: hxd_impl_ArrayIterator_$hxd_$snd_$Channel
-};
 var hxd_impl_AsyncLoader = function() { };
 $hxClasses["hxd.impl.AsyncLoader"] = hxd_impl_AsyncLoader;
 hxd_impl_AsyncLoader.__name__ = "hxd.impl.AsyncLoader";
@@ -32470,2085 +32298,6 @@ hxd_res_NanoJpeg.prototype = {
 	}
 	,__class__: hxd_res_NanoJpeg
 };
-var hxd_res_Sound = function(entry) {
-	this.lastPlay = 0.;
-	hxd_res_Resource.call(this,entry);
-};
-$hxClasses["hxd.res.Sound"] = hxd_res_Sound;
-hxd_res_Sound.__name__ = "hxd.res.Sound";
-hxd_res_Sound.__super__ = hxd_res_Resource;
-hxd_res_Sound.prototype = $extend(hxd_res_Resource.prototype,{
-	getData: function() {
-		if(this.data != null) {
-			return this.data;
-		}
-		var bytes = this.entry.getBytes();
-		switch(bytes.b[0]) {
-		case 73:case 255:
-			this.data = new hxd_snd_Mp3Data(bytes);
-			break;
-		case 79:
-			throw haxe_Exception.thrown("OGG format requires -lib stb_ogg_sound (for " + this.entry.get_path() + ")");
-		case 82:
-			this.data = new hxd_snd_WavData(bytes);
-			break;
-		default:
-		}
-		if(this.data == null) {
-			throw haxe_Exception.thrown("Unsupported sound format " + this.entry.get_path());
-		}
-		if(hxd_res_Sound.ENABLE_AUTO_WATCH) {
-			this.watch($bind(this,this.watchCallb));
-		}
-		return this.data;
-	}
-	,play: function(loop,volume,channelGroup,soundGroup) {
-		if(volume == null) {
-			volume = 1.;
-		}
-		if(loop == null) {
-			loop = false;
-		}
-		this.lastPlay = HxOverrides.now() / 1000;
-		this.channel = hxd_snd_Manager.get().play(this,channelGroup,soundGroup);
-		this.channel.loop = loop;
-		this.channel.set_volume(volume);
-		return this.channel;
-	}
-	,watchCallb: function() {
-		var old = this.data;
-		this.data = null;
-		var data = this.getData();
-		if(old != null) {
-			if(old.channels != data.channels || old.samples != data.samples || old.sampleFormat != data.sampleFormat || old.samplingRate != data.samplingRate) {
-				var ch = hxd_snd_Manager.get().getAll(this);
-				while(ch.hasNext()) {
-					var ch1 = ch.next();
-					ch1.duration = data.get_duration();
-					ch1.set_position(ch1.position);
-				}
-			}
-		}
-	}
-	,__class__: hxd_res_Sound
-});
-var hxd_snd_ChannelBase = function() {
-	this.volume = 1.;
-	this.bindedEffects = [];
-	this.effects = [];
-	this.mute = false;
-	this.priority = 0.;
-};
-$hxClasses["hxd.snd.ChannelBase"] = hxd_snd_ChannelBase;
-hxd_snd_ChannelBase.__name__ = "hxd.snd.ChannelBase";
-hxd_snd_ChannelBase.prototype = {
-	set_volume: function(v) {
-		this.currentFade = null;
-		return this.volume = v;
-	}
-	,updateCurrentVolume: function(now) {
-		if(this.currentFade != null) {
-			var f = this.currentFade;
-			var dt = now - f.start;
-			if(dt >= f.duration) {
-				this.set_volume(f.targetVolume);
-				if(f.onEnd != null) {
-					f.onEnd();
-				}
-			} else {
-				this.set_volume(f.startVolume + dt / f.duration * (f.targetVolume - f.startVolume));
-				this.currentFade = f;
-			}
-		}
-		this.currentVolume = this.volume;
-	}
-	,removeEffect: function(e) {
-		HxOverrides.remove(this.effects,e);
-	}
-	,__class__: hxd_snd_ChannelBase
-};
-var hxd_snd_Channel = function() {
-	this.queue = [];
-	this.positionChanged = false;
-	this.isLoading = false;
-	this.isVirtual = false;
-	this.lastStamp = 0.0;
-	this.audibleVolume = 1.0;
-	this.allowVirtual = true;
-	this.loop = false;
-	this.pause = false;
-	this.position = 0.0;
-	hxd_snd_ChannelBase.call(this);
-	this.id = hxd_snd_Channel.ID++;
-};
-$hxClasses["hxd.snd.Channel"] = hxd_snd_Channel;
-hxd_snd_Channel.__name__ = "hxd.snd.Channel";
-hxd_snd_Channel.__super__ = hxd_snd_ChannelBase;
-hxd_snd_Channel.prototype = $extend(hxd_snd_ChannelBase.prototype,{
-	onEnd: function() {
-	}
-	,set_position: function(v) {
-		this.lastStamp = HxOverrides.now() / 1000;
-		this.positionChanged = true;
-		if(v > this.duration) {
-			v = this.duration;
-		} else if(v < 0) {
-			v = 0;
-		}
-		return this.position = v;
-	}
-	,updateCurrentVolume: function(now) {
-		if(this.pause && this.currentFade != null) {
-			var f = this.currentFade;
-			this.currentFade = null;
-			this.updateCurrentVolume(now);
-			this.currentFade = f;
-		}
-		hxd_snd_ChannelBase.prototype.updateCurrentVolume.call(this,now);
-		this.channelGroup.updateCurrentVolume(now);
-		this.currentVolume *= this.channelGroup.currentVolume * this.soundGroup.volume;
-		if(this.manager != null) {
-			var _g = 0;
-			var _g1 = this.channelGroup.effects;
-			while(_g < _g1.length) this.currentVolume *= _g1[_g++].getVolumeModifier();
-			var _g = 0;
-			var _g1 = this.effects;
-			while(_g < _g1.length) this.currentVolume *= _g1[_g++].getVolumeModifier();
-		}
-	}
-	,calcAudibleVolume: function(now) {
-		this.updateCurrentVolume(now);
-		this.audibleVolume = this.currentVolume;
-		if(this.manager != null) {
-			var _g = 0;
-			var _g1 = this.channelGroup.effects;
-			while(_g < _g1.length) this.audibleVolume = _g1[_g++].applyAudibleVolumeModifier(this.audibleVolume);
-			var _g = 0;
-			var _g1 = this.effects;
-			while(_g < _g1.length) this.audibleVolume = _g1[_g++].applyAudibleVolumeModifier(this.audibleVolume);
-		}
-	}
-	,__class__: hxd_snd_Channel
-});
-var hxd_snd_ChannelGroup = function(name) {
-	hxd_snd_ChannelBase.call(this);
-	this.name = name;
-};
-$hxClasses["hxd.snd.ChannelGroup"] = hxd_snd_ChannelGroup;
-hxd_snd_ChannelGroup.__name__ = "hxd.snd.ChannelGroup";
-hxd_snd_ChannelGroup.__super__ = hxd_snd_ChannelBase;
-hxd_snd_ChannelGroup.prototype = $extend(hxd_snd_ChannelBase.prototype,{
-	__class__: hxd_snd_ChannelGroup
-});
-var hxd_snd_SampleFormat = $hxEnums["hxd.snd.SampleFormat"] = { __ename__:true,__constructs__:null
-	,UI8: {_hx_name:"UI8",_hx_index:0,__enum__:"hxd.snd.SampleFormat",toString:$estr}
-	,I16: {_hx_name:"I16",_hx_index:1,__enum__:"hxd.snd.SampleFormat",toString:$estr}
-	,F32: {_hx_name:"F32",_hx_index:2,__enum__:"hxd.snd.SampleFormat",toString:$estr}
-};
-hxd_snd_SampleFormat.__constructs__ = [hxd_snd_SampleFormat.UI8,hxd_snd_SampleFormat.I16,hxd_snd_SampleFormat.F32];
-hxd_snd_SampleFormat.__empty_constructs__ = [hxd_snd_SampleFormat.UI8,hxd_snd_SampleFormat.I16,hxd_snd_SampleFormat.F32];
-var hxd_snd_Data = function() { };
-$hxClasses["hxd.snd.Data"] = hxd_snd_Data;
-hxd_snd_Data.__name__ = "hxd.snd.Data";
-hxd_snd_Data.prototype = {
-	isLoading: function() {
-		return false;
-	}
-	,decode: function(out,outPos,sampleStart,sampleCount) {
-		var bpp = this.getBytesPerSample();
-		if(sampleStart < 0 || sampleCount < 0 || outPos < 0 || outPos + sampleCount * bpp > out.length) {
-			var s = "sampleStart = " + sampleStart;
-			s += " sampleCount = " + sampleCount;
-			s += " outPos = " + outPos;
-			s += " bpp = " + bpp;
-			s += " out.length = " + out.length;
-			throw haxe_Exception.thrown(s);
-		}
-		if(sampleStart + sampleCount >= this.samples) {
-			var count = 0;
-			if(sampleStart < this.samples) {
-				count = this.samples - sampleStart;
-				this.decodeBuffer(out,outPos,sampleStart,count);
-			}
-			out.fill(outPos + count * bpp,(sampleCount - count) * bpp,0);
-			return;
-		}
-		this.decodeBuffer(out,outPos,sampleStart,sampleCount);
-	}
-	,resample: function(rate,format,channels) {
-		if(this.sampleFormat == format && this.samplingRate == rate && this.channels == channels) {
-			return this;
-		}
-		var newSamples = Math.ceil(this.samples * (rate / this.samplingRate));
-		var data = new haxe_io_Bytes(new ArrayBuffer(this.getBytesPerSample() * this.samples));
-		this.decodeBuffer(data,0,0,this.samples);
-		var out = channels * newSamples;
-		var out1;
-		switch(format._hx_index) {
-		case 0:
-			out1 = 1;
-			break;
-		case 1:
-			out1 = 2;
-			break;
-		case 2:
-			out1 = 4;
-			break;
-		}
-		var out2 = new haxe_io_Bytes(new ArrayBuffer(out * out1));
-		this.resampleBuffer(out2,0,data,0,rate,format,channels,this.samples);
-		var data = new hxd_snd_WavData(null);
-		data.channels = channels;
-		data.samples = newSamples;
-		data.sampleFormat = format;
-		data.samplingRate = rate;
-		data.rawData = out2;
-		return data;
-	}
-	,resampleBuffer: function(out,outPos,input,inPos,rate,format,channels,samples) {
-		var bpp = this.getBytesPerSample();
-		var newSamples = Math.ceil(samples * (rate / this.samplingRate));
-		var resample = samples != newSamples;
-		if(!resample && this.sampleFormat == hxd_snd_SampleFormat.I16 && format == hxd_snd_SampleFormat.I16 && channels == 1 && this.channels == 2) {
-			var r = inPos;
-			var w = outPos;
-			var _g = 0;
-			while(_g < samples) {
-				++_g;
-				var sl = input.getUInt16(r);
-				r += 2;
-				var sr = input.getUInt16(r);
-				r += 2;
-				var s;
-				if((sl ^ sr) >= 32768) {
-					if((sl & 32768) != 0) {
-						sl |= -65536;
-					}
-					if((sr & 32768) != 0) {
-						sr |= -65536;
-					}
-					s = sl + sr >> 1 & 65535;
-				} else {
-					s = sl + sr >> 1;
-				}
-				out.setUInt16(w,s);
-				w += 2;
-			}
-			return;
-		}
-		var srcChannels = this.channels;
-		var commonChannels = channels < srcChannels ? channels : srcChannels;
-		var extraChannels = channels - commonChannels;
-		var sval = 0.;
-		var ival = 0;
-		var _g = 0;
-		while(_g < newSamples) {
-			var targetSample = _g++ / (newSamples - 1) * (samples - 1);
-			var isample = targetSample | 0;
-			var offset = targetSample - isample;
-			var srcPos = inPos + isample * bpp;
-			if(isample == samples - 1) {
-				resample = false;
-			}
-			var _g1 = 0;
-			var _g2 = commonChannels;
-			while(_g1 < _g2) {
-				++_g1;
-				var sval1;
-				var sval2 = 0.;
-				switch(this.sampleFormat._hx_index) {
-				case 0:
-					sval1 = input.b[srcPos] / 255;
-					if(resample) {
-						sval2 = input.b[srcPos + bpp] / 255;
-					}
-					++srcPos;
-					break;
-				case 1:
-					var v = input.getUInt16(srcPos);
-					sval1 = ((v & 32768) == 0 ? v : v | -65536) / 32768;
-					if(resample) {
-						var v1 = input.getUInt16(srcPos + bpp);
-						sval2 = ((v1 & 32768) == 0 ? v1 : v1 | -65536) / 32768;
-					}
-					srcPos += 2;
-					break;
-				case 2:
-					sval1 = input.getFloat(srcPos);
-					if(resample) {
-						sval2 = input.getFloat(srcPos + bpp);
-					}
-					srcPos += 4;
-					break;
-				}
-				sval = resample ? sval1 + offset * (sval2 - sval1) : sval1;
-				switch(format._hx_index) {
-				case 0:
-					ival = (sval + 1) * 128 | 0;
-					if(ival > 255) {
-						ival = 255;
-					}
-					out.b[outPos++] = ival;
-					break;
-				case 1:
-					ival = sval * 32768 | 0;
-					if(ival > 32767) {
-						ival = 32767;
-					}
-					ival &= 65535;
-					out.setUInt16(outPos,ival);
-					outPos += 2;
-					break;
-				case 2:
-					out.setFloat(outPos,sval);
-					outPos += 4;
-					break;
-				}
-			}
-			var _g3 = 0;
-			while(_g3 < extraChannels) {
-				++_g3;
-				switch(format._hx_index) {
-				case 0:
-					out.b[outPos++] = ival;
-					break;
-				case 1:
-					out.setUInt16(outPos,ival);
-					outPos += 2;
-					break;
-				case 2:
-					out.setFloat(outPos,sval);
-					outPos += 4;
-					break;
-				}
-			}
-		}
-	}
-	,decodeBuffer: function(out,outPos,sampleStart,sampleCount) {
-		throw haxe_Exception.thrown("Not implemented");
-	}
-	,getBytesPerSample: function() {
-		var tmp;
-		switch(this.sampleFormat._hx_index) {
-		case 0:
-			tmp = 1;
-			break;
-		case 1:
-			tmp = 2;
-			break;
-		case 2:
-			tmp = 4;
-			break;
-		}
-		return this.channels * tmp;
-	}
-	,load: function(onEnd) {
-		onEnd();
-	}
-	,get_duration: function() {
-		return this.samples / this.samplingRate;
-	}
-	,__class__: hxd_snd_Data
-};
-var hxd_snd_EffectDriver = function() {
-};
-$hxClasses["hxd.snd.EffectDriver"] = hxd_snd_EffectDriver;
-hxd_snd_EffectDriver.__name__ = "hxd.snd.EffectDriver";
-hxd_snd_EffectDriver.prototype = {
-	acquire: function() {
-	}
-	,release: function() {
-	}
-	,update: function(e) {
-	}
-	,bind: function(e,source) {
-	}
-	,apply: function(e,source) {
-	}
-	,unbind: function(e,source) {
-	}
-	,__class__: hxd_snd_EffectDriver
-};
-var hxd_snd_DriverFeature = $hxEnums["hxd.snd.DriverFeature"] = { __ename__:true,__constructs__:null
-	,MasterVolume: {_hx_name:"MasterVolume",_hx_index:0,__enum__:"hxd.snd.DriverFeature",toString:$estr}
-};
-hxd_snd_DriverFeature.__constructs__ = [hxd_snd_DriverFeature.MasterVolume];
-hxd_snd_DriverFeature.__empty_constructs__ = [hxd_snd_DriverFeature.MasterVolume];
-var hxd_snd_Driver = function() { };
-$hxClasses["hxd.snd.Driver"] = hxd_snd_Driver;
-hxd_snd_Driver.__name__ = "hxd.snd.Driver";
-hxd_snd_Driver.__isInterface__ = true;
-hxd_snd_Driver.prototype = {
-	__class__: hxd_snd_Driver
-};
-var hxd_snd_Effect = function(type) {
-	this.refs = 0;
-	this.priority = 0;
-	this.retainTime = 0.0;
-	this.lastStamp = 0.0;
-	var managerDriver = hxd_snd_Manager.get().driver;
-	if(managerDriver != null) {
-		this.driver = managerDriver.getEffectDriver(type);
-	}
-};
-$hxClasses["hxd.snd.Effect"] = hxd_snd_Effect;
-hxd_snd_Effect.__name__ = "hxd.snd.Effect";
-hxd_snd_Effect.prototype = {
-	applyAudibleVolumeModifier: function(v) {
-		return v;
-	}
-	,getVolumeModifier: function() {
-		return 1;
-	}
-	,__class__: hxd_snd_Effect
-};
-var hxd_snd_Listener = function() {
-	this.position = new h3d_Vector();
-	this.velocity = new h3d_Vector();
-	this.direction = new h3d_Vector(1,0,0);
-	this.up = new h3d_Vector(0,0,1);
-};
-$hxClasses["hxd.snd.Listener"] = hxd_snd_Listener;
-hxd_snd_Listener.__name__ = "hxd.snd.Listener";
-hxd_snd_Listener.prototype = {
-	__class__: hxd_snd_Listener
-};
-var hxd_snd_Source = function(driver) {
-	this.start = 0;
-	this.playing = false;
-	this.volume = -1.0;
-	this.id = hxd_snd_Source.ID++;
-	this.handle = driver.createSource();
-	this.buffers = [];
-};
-$hxClasses["hxd.snd.Source"] = hxd_snd_Source;
-hxd_snd_Source.__name__ = "hxd.snd.Source";
-hxd_snd_Source.prototype = {
-	__class__: hxd_snd_Source
-};
-var hxd_snd_Buffer = function(driver) {
-	this.handle = driver.createBuffer();
-	this.refs = 0;
-	this.lastStop = HxOverrides.now() / 1000;
-};
-$hxClasses["hxd.snd.Buffer"] = hxd_snd_Buffer;
-hxd_snd_Buffer.__name__ = "hxd.snd.Buffer";
-hxd_snd_Buffer.prototype = {
-	dispose: function() {
-		hxd_snd_Manager.get().driver.destroyBuffer(this.handle);
-	}
-	,__class__: hxd_snd_Buffer
-};
-var hxd_snd_Manager = function() {
-	this.suspended = false;
-	this.timeOffset = 0.;
-	try {
-		this.driver = new hxd_snd_webaudio_Driver();
-	} catch( _g ) {
-		if(typeof(haxe_Exception.caught(_g).unwrap()) == "string") {
-			this.driver = null;
-		} else {
-			throw _g;
-		}
-	}
-	this.masterVolume = 1.0;
-	this.hasMasterVolume = this.driver == null ? true : this.driver.hasFeature(hxd_snd_DriverFeature.MasterVolume);
-	this.masterSoundGroup = new hxd_snd_SoundGroup("master");
-	this.masterChannelGroup = new hxd_snd_ChannelGroup("master");
-	this.listener = new hxd_snd_Listener();
-	this.soundBufferMap = new haxe_ds_StringMap();
-	this.soundBufferKeys = [];
-	this.freeStreamBuffers = [];
-	this.effectGC = [];
-	this.soundBufferCount = 0;
-	if(this.driver != null) {
-		this.sources = [];
-		var _g = 0;
-		var _g1 = hxd_snd_Manager.MAX_SOURCES;
-		while(_g < _g1) {
-			++_g;
-			this.sources.push(new hxd_snd_Source(this.driver));
-		}
-	}
-	this.cachedBytes = new haxe_io_Bytes(new ArrayBuffer(24));
-	this.resampleBytes = new haxe_io_Bytes(new ArrayBuffer(hxd_snd_Manager.STREAM_BUFFER_SAMPLE_COUNT * 2));
-};
-$hxClasses["hxd.snd.Manager"] = hxd_snd_Manager;
-hxd_snd_Manager.__name__ = "hxd.snd.Manager";
-hxd_snd_Manager.get = function() {
-	if(hxd_snd_Manager.instance == null) {
-		hxd_snd_Manager.instance = new hxd_snd_Manager();
-		hxd_snd_Manager.instance.updateEvent = haxe_MainLoop.add(($_=hxd_snd_Manager.instance,$bind($_,$_.update)));
-		hxd_snd_Manager.instance.updateEvent.isBlocking = false;
-	}
-	return hxd_snd_Manager.instance;
-};
-hxd_snd_Manager.regEffect = function(list,e) {
-	var l = list;
-	while(l != null) {
-		if(l == e) {
-			return list;
-		}
-		l = l.next;
-	}
-	e.next = list;
-	return e;
-};
-hxd_snd_Manager.prototype = {
-	getTmpBytes: function(size) {
-		if(this.cachedBytes.length < size) {
-			this.cachedBytes = new haxe_io_Bytes(new ArrayBuffer(size));
-		}
-		return this.cachedBytes;
-	}
-	,getResampleBytes: function(size) {
-		if(this.resampleBytes.length < size) {
-			this.resampleBytes = new haxe_io_Bytes(new ArrayBuffer(size));
-		}
-		return this.resampleBytes;
-	}
-	,getAll: function(sound) {
-		var ch = this.channels;
-		var result = [];
-		while(ch != null) {
-			if(ch.sound == sound) {
-				result.push(ch);
-			}
-			ch = ch.next;
-		}
-		return new hxd_impl_ArrayIterator_$hxd_$snd_$Channel(result);
-	}
-	,play: function(sound,channelGroup,soundGroup) {
-		if(soundGroup == null) {
-			soundGroup = this.masterSoundGroup;
-		}
-		if(channelGroup == null) {
-			channelGroup = this.masterChannelGroup;
-		}
-		var sdat = sound.getData();
-		if(sdat.samples == 0) {
-			throw haxe_Exception.thrown(Std.string(sound) + " has no samples");
-		}
-		var c = new hxd_snd_Channel();
-		c.sound = sound;
-		c.duration = sdat.get_duration();
-		c.manager = this;
-		c.soundGroup = soundGroup;
-		c.channelGroup = channelGroup;
-		c.next = this.channels;
-		c.isLoading = sdat.isLoading();
-		c.isVirtual = this.driver == null;
-		c.lastStamp = HxOverrides.now() / 1000;
-		this.channels = c;
-		return c;
-	}
-	,updateVirtualChannels: function(now) {
-		var c = this.channels;
-		while(c != null) {
-			if(c.pause || !c.isVirtual || c.isLoading) {
-				c = c.next;
-				continue;
-			}
-			var a = now - c.lastStamp;
-			c.set_position(c.position + (a < 0.0 ? 0.0 : a));
-			c.lastStamp = now;
-			var next = c.next;
-			while(c.position >= c.duration) {
-				c.set_position(c.position - c.duration);
-				c.onEnd();
-				if(next != null && next.manager == null) {
-					next = null;
-				}
-				if(c.queue.length > 0) {
-					c.sound = c.queue.shift();
-					c.duration = c.sound.getData().get_duration();
-				} else if(!c.loop) {
-					this.releaseChannel(c);
-					break;
-				}
-			}
-			c = next;
-		}
-	}
-	,update: function() {
-		if(this.timeOffset != 0) {
-			var c = this.channels;
-			while(c != null) {
-				c.lastStamp += this.timeOffset;
-				if(c.currentFade != null) {
-					c.currentFade.start += this.timeOffset;
-				}
-				c = c.next;
-			}
-			var _g = 0;
-			var _g1 = this.sources;
-			while(_g < _g1.length) {
-				var _g2 = 0;
-				var _g3 = _g1[_g++].buffers;
-				while(_g2 < _g3.length) _g3[_g2++].lastStop += this.timeOffset;
-			}
-			this.timeOffset = 0;
-		}
-		this.now = HxOverrides.now() / 1000;
-		if(this.driver == null) {
-			this.updateVirtualChannels(this.now);
-			return;
-		}
-		var _g = 0;
-		var _g1 = this.sources;
-		while(_g < _g1.length) {
-			var s = _g1[_g];
-			++_g;
-			var c = s.channel;
-			if(c == null) {
-				continue;
-			}
-			if(c.positionChanged) {
-				this.releaseSource(s);
-				continue;
-			}
-			var lastBuffer = null;
-			var count = this.driver.getProcessedBuffers(s.handle);
-			var _g2 = 0;
-			while(_g2 < count) {
-				++_g2;
-				var b = this.unqueueBuffer(s);
-				if(b == null) {
-					continue;
-				}
-				lastBuffer = b;
-				if(b.isEnd) {
-					c.sound = b.sound;
-					c.duration = b.sound.getData().get_duration();
-					c.set_position(c.duration);
-					c.positionChanged = false;
-					c.onEnd();
-					s.start = 0;
-				}
-			}
-			if(s.buffers.length == 0) {
-				if(!lastBuffer.isEnd) {
-					c.set_position((lastBuffer.start + lastBuffer.samples) / lastBuffer.sampleRate);
-					this.releaseSource(s);
-				} else if(c.queue.length > 0) {
-					c.sound = c.queue.shift();
-					c.duration = c.sound.getData().get_duration();
-					c.set_position(0);
-					this.releaseSource(s);
-				} else if(c.loop) {
-					c.set_position(0);
-					this.releaseSource(s);
-				} else {
-					this.releaseChannel(c);
-				}
-				continue;
-			}
-			c.sound = s.buffers[0].sound;
-			c.duration = c.sound.getData().get_duration();
-			var playedSamples = this.driver.getPlayedSampleCount(s.handle);
-			if(playedSamples < 0) {
-				playedSamples = 0;
-			}
-			c.set_position(s.start / this.targetRate + playedSamples / s.buffers[0].sampleRate);
-			c.positionChanged = false;
-			if(s.buffers.length < hxd_snd_Manager.BUFFER_QUEUE_LENGTH) {
-				var b1 = s.buffers[s.buffers.length - 1];
-				if(!b1.isEnd) {
-					this.queueBuffer(s,b1.sound,b1.start + b1.samples);
-				} else if(c.queue.length > 0) {
-					if(this.queueBuffer(s,c.queue[0],0)) {
-						c.queue.shift();
-					}
-				} else if(c.loop) {
-					this.queueBuffer(s,b1.sound,0);
-				}
-			}
-		}
-		var c = this.channels;
-		while(c != null) {
-			c.calcAudibleVolume(this.now);
-			if(c.isLoading && !c.sound.getData().isLoading()) {
-				c.isLoading = false;
-			}
-			c.isVirtual = this.suspended || c.pause || c.mute || c.channelGroup.mute || c.allowVirtual && c.audibleVolume < hxd_snd_Manager.VIRTUAL_VOLUME_THRESHOLD || c.isLoading;
-			c = c.next;
-		}
-		var list = this.channels;
-		var cmp = $bind(this,this.sortChannel);
-		var tmp;
-		if(list == null) {
-			tmp = null;
-		} else {
-			var insize = 1;
-			var nmerges;
-			var psize = 0;
-			var qsize = 0;
-			var p;
-			var q;
-			var e;
-			var tail;
-			while(true) {
-				p = list;
-				list = null;
-				tail = null;
-				nmerges = 0;
-				while(p != null) {
-					++nmerges;
-					q = p;
-					psize = 0;
-					var _g = 0;
-					var _g1 = insize;
-					while(_g < _g1) {
-						++_g;
-						++psize;
-						q = q.next;
-						if(q == null) {
-							break;
-						}
-					}
-					qsize = insize;
-					while(psize > 0 || qsize > 0 && q != null) {
-						if(psize == 0) {
-							e = q;
-							q = q.next;
-							--qsize;
-						} else if(qsize == 0 || q == null || cmp(p,q) <= 0) {
-							e = p;
-							p = p.next;
-							--psize;
-						} else {
-							e = q;
-							q = q.next;
-							--qsize;
-						}
-						if(tail != null) {
-							tail.next = e;
-						} else {
-							list = e;
-						}
-						tail = e;
-					}
-					p = q;
-				}
-				tail.next = null;
-				if(nmerges <= 1) {
-					break;
-				}
-				insize *= 2;
-			}
-			tmp = list;
-		}
-		this.channels = tmp;
-		var audibleCount = 0;
-		var c = this.channels;
-		while(c != null && !c.isVirtual) {
-			if(++audibleCount > this.sources.length) {
-				c.isVirtual = true;
-			} else if(c.soundGroup.maxAudible >= 0) {
-				if(c.soundGroup.lastUpdate != this.now) {
-					c.soundGroup.lastUpdate = this.now;
-					c.soundGroup.numAudible = 0;
-				}
-				if(++c.soundGroup.numAudible > c.soundGroup.maxAudible) {
-					c.isVirtual = true;
-					--audibleCount;
-				}
-			}
-			c = c.next;
-		}
-		var _g = 0;
-		var _g1 = this.sources;
-		while(_g < _g1.length) {
-			var s = _g1[_g];
-			++_g;
-			if(s.channel == null || !s.channel.isVirtual) {
-				continue;
-			}
-			this.releaseSource(s);
-		}
-		var c = this.channels;
-		while(c != null) {
-			if(c.source != null || c.isVirtual) {
-				c = c.next;
-				continue;
-			}
-			var s = null;
-			var _g = 0;
-			var _g1 = this.sources;
-			while(_g < _g1.length) {
-				var s2 = _g1[_g];
-				++_g;
-				if(s2.channel == null) {
-					s = s2;
-					break;
-				}
-			}
-			if(s == null) {
-				throw haxe_Exception.thrown("could not get a source");
-			}
-			s.channel = c;
-			c.source = s;
-			this.checkTargetFormat(c.sound.getData(),c.soundGroup.mono);
-			s.start = Math.floor(c.position * this.targetRate);
-			if(s.start < 0) {
-				s.start = 0;
-			}
-			this.queueBuffer(s,c.sound,s.start);
-			c.positionChanged = false;
-			c = c.next;
-		}
-		var usedEffects = null;
-		var volume = this.hasMasterVolume ? 1. : this.masterVolume;
-		var _g = 0;
-		var _g1 = this.sources;
-		while(_g < _g1.length) {
-			var s = _g1[_g];
-			++_g;
-			var c = s.channel;
-			if(c == null) {
-				continue;
-			}
-			var v = c.currentVolume * volume;
-			if(s.volume != v) {
-				if(v < 0) {
-					v = 0;
-				}
-				s.volume = v;
-				this.driver.setSourceVolume(s.handle,v);
-			}
-			if(!s.playing) {
-				this.driver.playSource(s.handle);
-				s.playing = true;
-			}
-			var i = c.bindedEffects.length;
-			while(--i >= 0) {
-				var e = c.bindedEffects[i];
-				if(c.effects.indexOf(e) < 0 && c.channelGroup.effects.indexOf(e) < 0) {
-					this.unbindEffect(c,s,e);
-				}
-			}
-			var _g2 = 0;
-			var _g3 = c.channelGroup.effects;
-			while(_g2 < _g3.length) {
-				var e1 = _g3[_g2];
-				++_g2;
-				if(c.bindedEffects.indexOf(e1) < 0) {
-					this.bindEffect(c,s,e1);
-				}
-			}
-			var _g4 = 0;
-			var _g5 = c.effects;
-			while(_g4 < _g5.length) {
-				var e2 = _g5[_g4];
-				++_g4;
-				if(c.bindedEffects.indexOf(e2) < 0) {
-					this.bindEffect(c,s,e2);
-				}
-			}
-			var _g6 = 0;
-			var _g7 = c.bindedEffects;
-			while(_g6 < _g7.length) usedEffects = hxd_snd_Manager.regEffect(usedEffects,_g7[_g6++]);
-		}
-		var list = usedEffects;
-		var cmp = $bind(this,this.sortEffect);
-		if(list == null) {
-			usedEffects = null;
-		} else {
-			var insize = 1;
-			var nmerges;
-			var psize = 0;
-			var qsize = 0;
-			var p;
-			var q;
-			var e;
-			var tail;
-			while(true) {
-				p = list;
-				list = null;
-				tail = null;
-				nmerges = 0;
-				while(p != null) {
-					++nmerges;
-					q = p;
-					psize = 0;
-					var _g = 0;
-					var _g1 = insize;
-					while(_g < _g1) {
-						++_g;
-						++psize;
-						q = q.next;
-						if(q == null) {
-							break;
-						}
-					}
-					qsize = insize;
-					while(psize > 0 || qsize > 0 && q != null) {
-						if(psize == 0) {
-							e = q;
-							q = q.next;
-							--qsize;
-						} else if(qsize == 0 || q == null || cmp(p,q) <= 0) {
-							e = p;
-							p = p.next;
-							--psize;
-						} else {
-							e = q;
-							q = q.next;
-							--qsize;
-						}
-						if(tail != null) {
-							tail.next = e;
-						} else {
-							list = e;
-						}
-						tail = e;
-					}
-					p = q;
-				}
-				tail.next = null;
-				if(nmerges <= 1) {
-					break;
-				}
-				insize *= 2;
-			}
-			usedEffects = list;
-		}
-		var e = usedEffects;
-		while(e != null) {
-			e.driver.update(e);
-			e = e.next;
-		}
-		var _g = 0;
-		var _g1 = this.sources;
-		while(_g < _g1.length) {
-			var s = _g1[_g];
-			++_g;
-			var c = s.channel;
-			if(c == null) {
-				continue;
-			}
-			var _g2 = 0;
-			var _g3 = c.bindedEffects;
-			while(_g2 < _g3.length) {
-				var e = _g3[_g2];
-				++_g2;
-				e.driver.apply(e,s.handle);
-			}
-		}
-		var _g = 0;
-		var _g1 = this.effectGC;
-		while(_g < _g1.length) {
-			var e = _g1[_g];
-			++_g;
-			if(this.now - e.lastStamp > e.retainTime) {
-				e.driver.release();
-				HxOverrides.remove(this.effectGC,e);
-				break;
-			}
-		}
-		this.updateVirtualChannels(this.now);
-		var _this = this.listener.direction;
-		var k = _this.x * _this.x + _this.y * _this.y + _this.z * _this.z;
-		if(k < 1e-10) {
-			k = 0;
-		} else {
-			k = 1. / Math.sqrt(k);
-		}
-		_this.x *= k;
-		_this.y *= k;
-		_this.z *= k;
-		var _this = this.listener.up;
-		var k = _this.x * _this.x + _this.y * _this.y + _this.z * _this.z;
-		if(k < 1e-10) {
-			k = 0;
-		} else {
-			k = 1. / Math.sqrt(k);
-		}
-		_this.x *= k;
-		_this.y *= k;
-		_this.z *= k;
-		if(this.hasMasterVolume) {
-			this.driver.setMasterVolume(this.masterVolume);
-		}
-		this.driver.setListenerParams(this.listener.position,this.listener.direction,this.listener.up,this.listener.velocity);
-		this.driver.update();
-		if(this.soundBufferCount >= hxd_snd_Manager.SOUND_BUFFER_CACHE_SIZE) {
-			var now = HxOverrides.now() / 1000;
-			var i = 0;
-			while(i < this.soundBufferKeys.length) {
-				var k = this.soundBufferKeys[i];
-				var b = this.soundBufferMap.h[k];
-				++i;
-				if(b.refs > 0 || b.lastStop + 60.0 > now) {
-					continue;
-				}
-				var _this = this.soundBufferMap;
-				if(Object.prototype.hasOwnProperty.call(_this.h,k)) {
-					delete(_this.h[k]);
-				}
-				HxOverrides.remove(this.soundBufferKeys,k);
-				--i;
-				b.dispose();
-				--this.soundBufferCount;
-			}
-		}
-	}
-	,progressiveDecodeBuffer: function(s,snd,start) {
-		var data = snd.getData();
-		var samples = Math.ceil(hxd_snd_Manager.STREAM_BUFFER_SAMPLE_COUNT / hxd_snd_Manager.BUFFER_STREAM_SPLIT);
-		if(s.streamStart != start || s.streamSound != snd) {
-			s.streamSound = snd;
-			s.streamStart = start;
-			s.streamPos = start;
-		}
-		var end = start + hxd_snd_Manager.STREAM_BUFFER_SAMPLE_COUNT;
-		if(s.streamPos == end) {
-			return true;
-		}
-		var bpp = data.getBytesPerSample();
-		var reqSize = hxd_snd_Manager.STREAM_BUFFER_SAMPLE_COUNT * bpp;
-		if(s.streamBuffer == null || s.streamBuffer.length < reqSize) {
-			s.streamBuffer = new haxe_io_Bytes(new ArrayBuffer(reqSize));
-			s.streamPos = start;
-		}
-		var remain = end - s.streamPos;
-		if(remain > samples) {
-			remain = samples;
-		}
-		data.decode(s.streamBuffer,(s.streamPos - start) * bpp,s.streamPos,remain);
-		s.streamPos += remain;
-		return s.streamPos == end;
-	}
-	,queueBuffer: function(s,snd,start) {
-		var data = snd.getData();
-		var sgroup = s.channel.soundGroup;
-		var b = null;
-		if(data.get_duration() <= hxd_snd_Manager.STREAM_DURATION) {
-			b = this.getSoundBuffer(snd,sgroup);
-			this.driver.queueBuffer(s.handle,b.handle,start,true);
-		} else {
-			if(s.buffers.length > 0 && hxd_snd_Manager.BUFFER_STREAM_SPLIT > 1 && !this.progressiveDecodeBuffer(s,snd,start)) {
-				return false;
-			}
-			b = this.getStreamBuffer(s,snd,sgroup,start);
-			this.driver.queueBuffer(s.handle,b.handle,0,b.isEnd);
-		}
-		s.buffers.push(b);
-		return true;
-	}
-	,unqueueBuffer: function(s) {
-		var b = s.buffers.shift();
-		if(b == null) {
-			return null;
-		}
-		this.driver.unqueueBuffer(s.handle,b.handle);
-		if(b.isStream) {
-			this.freeStreamBuffers.unshift(b);
-		} else if(--b.refs == 0) {
-			b.lastStop = HxOverrides.now() / 1000;
-		}
-		return b;
-	}
-	,bindEffect: function(c,s,e) {
-		if(e.refs == 0 && !HxOverrides.remove(this.effectGC,e)) {
-			e.driver.acquire();
-		}
-		++e.refs;
-		e.driver.bind(e,s.handle);
-		c.bindedEffects.push(e);
-	}
-	,unbindEffect: function(c,s,e) {
-		e.driver.unbind(e,s.handle);
-		HxOverrides.remove(c.bindedEffects,e);
-		if(--e.refs == 0) {
-			e.lastStamp = this.now;
-			this.effectGC.push(e);
-		}
-	}
-	,releaseSource: function(s) {
-		if(s.channel != null) {
-			var _g = 0;
-			var _g1 = s.channel.bindedEffects.slice();
-			while(_g < _g1.length) this.unbindEffect(s.channel,s,_g1[_g++]);
-			s.channel.bindedEffects = [];
-			s.channel.source = null;
-			s.channel = null;
-		}
-		if(s.playing) {
-			s.playing = false;
-			this.driver.stopSource(s.handle);
-			s.volume = -1.0;
-		}
-		while(s.buffers.length > 0) this.unqueueBuffer(s);
-	}
-	,checkTargetFormat: function(dat,forceMono) {
-		if(forceMono == null) {
-			forceMono = false;
-		}
-		this.targetRate = dat.samplingRate;
-		this.targetChannels = forceMono || dat.channels == 1 ? 1 : 2;
-		var tmp;
-		switch(dat.sampleFormat._hx_index) {
-		case 0:
-			tmp = hxd_snd_SampleFormat.UI8;
-			break;
-		case 1:
-			tmp = hxd_snd_SampleFormat.I16;
-			break;
-		case 2:
-			tmp = hxd_snd_SampleFormat.F32;
-			break;
-		}
-		this.targetFormat = tmp;
-		if(this.targetChannels == dat.channels && this.targetFormat == dat.sampleFormat) {
-			return this.targetRate == dat.samplingRate;
-		} else {
-			return false;
-		}
-	}
-	,getSoundBuffer: function(snd,grp) {
-		var _gthis = this;
-		var data = snd.getData();
-		var mono = grp.mono;
-		var key = snd.entry.get_path();
-		if(mono && data.channels != 1) {
-			key += "mono";
-		}
-		var b = this.soundBufferMap.h[key];
-		if(b == null) {
-			b = new hxd_snd_Buffer(this.driver);
-			b.isStream = false;
-			b.isEnd = true;
-			b.sound = snd;
-			data.load(function() {
-				_gthis.fillSoundBuffer(b,data,mono);
-			});
-			this.soundBufferMap.h[key] = b;
-			this.soundBufferKeys.push(key);
-			++this.soundBufferCount;
-		}
-		++b.refs;
-		return b;
-	}
-	,fillSoundBuffer: function(buf,dat,forceMono) {
-		if(forceMono == null) {
-			forceMono = false;
-		}
-		if(!this.checkTargetFormat(dat,forceMono)) {
-			dat = dat.resample(this.targetRate,this.targetFormat,this.targetChannels);
-		}
-		var length = dat.samples * dat.getBytesPerSample();
-		var bytes = this.getTmpBytes(length);
-		dat.decode(bytes,0,0,dat.samples);
-		this.driver.setBufferData(buf.handle,bytes,length,this.targetFormat,this.targetChannels,this.targetRate);
-		buf.sampleRate = this.targetRate;
-		buf.samples = dat.samples;
-	}
-	,getStreamBuffer: function(src,snd,grp,start) {
-		var data = snd.getData();
-		var b = this.freeStreamBuffers.shift();
-		if(b == null) {
-			b = new hxd_snd_Buffer(this.driver);
-			b.isStream = true;
-		}
-		var samples = hxd_snd_Manager.STREAM_BUFFER_SAMPLE_COUNT;
-		if(start + samples >= data.samples) {
-			samples = data.samples - start;
-			b.isEnd = true;
-		} else {
-			b.isEnd = false;
-		}
-		b.sound = snd;
-		b.samples = samples;
-		b.start = start;
-		var size = samples * data.getBytesPerSample();
-		var bytes;
-		if(src.streamSound == snd && src.streamStart == start) {
-			while(!this.progressiveDecodeBuffer(src,snd,start)) {
-			}
-			bytes = src.streamBuffer;
-		} else {
-			bytes = this.getTmpBytes(size);
-			data.decode(bytes,0,start,samples);
-		}
-		if(!this.checkTargetFormat(data,grp.mono)) {
-			var size1 = Math.ceil(samples * (this.targetRate / data.samplingRate)) * this.targetChannels;
-			var size2;
-			switch(this.targetFormat._hx_index) {
-			case 0:
-				size2 = 1;
-				break;
-			case 1:
-				size2 = 2;
-				break;
-			case 2:
-				size2 = 4;
-				break;
-			}
-			size = size1 * size2;
-			var resampleBytes = this.getResampleBytes(size);
-			data.resampleBuffer(resampleBytes,0,bytes,0,this.targetRate,this.targetFormat,this.targetChannels,samples);
-			bytes = resampleBytes;
-		}
-		this.driver.setBufferData(b.handle,bytes,size,this.targetFormat,this.targetChannels,this.targetRate);
-		b.sampleRate = this.targetRate;
-		return b;
-	}
-	,sortChannel: function(a,b) {
-		if(a.isVirtual != b.isVirtual) {
-			if(a.isVirtual) {
-				return 1;
-			} else {
-				return -1;
-			}
-		}
-		if(a.channelGroup.priority != b.channelGroup.priority) {
-			if(a.channelGroup.priority < b.channelGroup.priority) {
-				return 1;
-			} else {
-				return -1;
-			}
-		}
-		if(a.priority != b.priority) {
-			if(a.priority < b.priority) {
-				return 1;
-			} else {
-				return -1;
-			}
-		}
-		if(a.audibleVolume != b.audibleVolume) {
-			if(a.audibleVolume < b.audibleVolume) {
-				return 1;
-			} else {
-				return -1;
-			}
-		}
-		if(a.id < b.id) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
-	,sortEffect: function(a,b) {
-		return b.priority - a.priority;
-	}
-	,releaseChannel: function(c) {
-		if(c.manager == null) {
-			return;
-		}
-		if(this.channels == c) {
-			this.channels = c.next;
-		} else {
-			var prev = this.channels;
-			while(prev.next != c) prev = prev.next;
-			prev.next = c.next;
-		}
-		var _g = 0;
-		var _g1 = c.effects;
-		while(_g < _g1.length) c.removeEffect(_g1[_g++]);
-		if(c.source != null) {
-			this.releaseSource(c.source);
-		}
-		c.next = null;
-		c.manager = null;
-		c.effects = null;
-		c.bindedEffects = null;
-		c.currentFade = null;
-		var snd = c.sound;
-		if(snd != null && snd.channel == c) {
-			snd.channel = null;
-		}
-	}
-	,__class__: hxd_snd_Manager
-};
-var hxd_snd_Mp3Data = function(bytes) {
-	var mp = new format_mp3_Reader(new haxe_io_BytesInput(bytes)).read();
-	this.samples = mp.sampleCount;
-	var frame = mp.frames[0].data;
-	var lame = -1;
-	var _g = 0;
-	var _g1 = frame.length - 24;
-	while(_g < _g1) {
-		var i = _g++;
-		if(frame.b[i] == 76 && frame.b[i + 1] == 65 && frame.b[i + 2] == 77 && frame.b[i + 3] == 69) {
-			lame = i;
-			break;
-		}
-	}
-	if(lame >= 0) {
-		var startEnd = frame.b[lame + 21] << 16 | frame.b[lame + 22] << 8 | frame.b[lame + 23];
-		this.samples -= (startEnd >> 12) + (startEnd & 4095) + 1152;
-	}
-	var header = mp.frames[0].header;
-	this.sampleFormat = hxd_snd_SampleFormat.F32;
-	this.samplingRate = format_mp3_MPEG.srEnum2Num(header.samplingRate);
-	this.channels = header.channelMode == format_mp3_ChannelMode.Mono ? 1 : 2;
-	var ctx = hxd_snd_webaudio_Context.get();
-	if(ctx == null) {
-		return;
-	}
-	ctx.decodeAudioData(bytes.b.bufferValue,$bind(this,this.processBuffer));
-	var decodedRate = ctx.sampleRate | 0;
-	this.samples = Math.ceil(this.samples * decodedRate / this.samplingRate);
-	this.samplingRate = decodedRate;
-};
-$hxClasses["hxd.snd.Mp3Data"] = hxd_snd_Mp3Data;
-hxd_snd_Mp3Data.__name__ = "hxd.snd.Mp3Data";
-hxd_snd_Mp3Data.__super__ = hxd_snd_Data;
-hxd_snd_Mp3Data.prototype = $extend(hxd_snd_Data.prototype,{
-	isLoading: function() {
-		return this.buffer == null;
-	}
-	,load: function(onEnd) {
-		if(this.buffer != null) {
-			onEnd();
-		} else {
-			this.onEnd = onEnd;
-		}
-	}
-	,processBuffer: function(buf) {
-		var left = buf.getChannelData(0);
-		this.samples = buf.length;
-		if(this.channels == 1) {
-			this.buffer = haxe_io_Bytes.ofData(left.buffer);
-			return;
-		}
-		var right = buf.numberOfChannels < 2 ? left : buf.getChannelData(1);
-		var join = new Float32Array(left.length * 2);
-		var w = 0;
-		var _g = 0;
-		var _g1 = buf.length;
-		while(_g < _g1) {
-			var i = _g++;
-			join[w++] = left[i];
-			join[w++] = right[i];
-		}
-		this.buffer = haxe_io_Bytes.ofData(join.buffer);
-		if(this.onEnd != null) {
-			this.onEnd();
-			this.onEnd = null;
-		}
-	}
-	,decodeBuffer: function(out,outPos,sampleStart,sampleCount) {
-		if(this.buffer == null) {
-			out.fill(outPos,sampleCount * 4 * this.channels,0);
-		} else {
-			out.blit(outPos,this.buffer,sampleStart * 4 * this.channels,sampleCount * 4 * this.channels);
-		}
-	}
-	,__class__: hxd_snd_Mp3Data
-});
-var hxd_snd_SoundGroup = function(name) {
-	this.name = name;
-	this.maxAudible = -1;
-	this.volume = 1;
-	this.mono = false;
-};
-$hxClasses["hxd.snd.SoundGroup"] = hxd_snd_SoundGroup;
-hxd_snd_SoundGroup.__name__ = "hxd.snd.SoundGroup";
-hxd_snd_SoundGroup.prototype = {
-	__class__: hxd_snd_SoundGroup
-};
-var hxd_snd_WavData = function(bytes) {
-	if(bytes != null) {
-		this.init(new format_wav_Reader(new haxe_io_BytesInput(bytes)).read());
-	}
-};
-$hxClasses["hxd.snd.WavData"] = hxd_snd_WavData;
-hxd_snd_WavData.__name__ = "hxd.snd.WavData";
-hxd_snd_WavData.__super__ = hxd_snd_Data;
-hxd_snd_WavData.prototype = $extend(hxd_snd_Data.prototype,{
-	init: function(d) {
-		var h = d.header;
-		this.samplingRate = h.samplingRate;
-		this.channels = h.channels;
-		var tmp;
-		switch(h.bitsPerSample) {
-		case 8:
-			tmp = hxd_snd_SampleFormat.UI8;
-			break;
-		case 16:
-			tmp = hxd_snd_SampleFormat.I16;
-			break;
-		default:
-			throw haxe_Exception.thrown("Unsupported WAV " + h.bitsPerSample + " bits");
-		}
-		this.sampleFormat = tmp;
-		this.rawData = d.data;
-		this.samples = this.rawData.length / this.getBytesPerSample() | 0;
-	}
-	,decodeBuffer: function(out,outPos,sampleStart,sampleCount) {
-		var bpp = this.getBytesPerSample();
-		out.blit(outPos,this.rawData,sampleStart * bpp,sampleCount * bpp);
-	}
-	,__class__: hxd_snd_WavData
-});
-var hxd_snd_effect_LowPass = function() {
-	hxd_snd_Effect.call(this,"lowpass");
-	this.priority = 100;
-	this.gainHF = 1.0;
-};
-$hxClasses["hxd.snd.effect.LowPass"] = hxd_snd_effect_LowPass;
-hxd_snd_effect_LowPass.__name__ = "hxd.snd.effect.LowPass";
-hxd_snd_effect_LowPass.__super__ = hxd_snd_Effect;
-hxd_snd_effect_LowPass.prototype = $extend(hxd_snd_Effect.prototype,{
-	__class__: hxd_snd_effect_LowPass
-});
-var hxd_snd_effect_Pitch = function(value) {
-	if(value == null) {
-		value = 1.0;
-	}
-	hxd_snd_Effect.call(this,"pitch");
-	this.value = value;
-};
-$hxClasses["hxd.snd.effect.Pitch"] = hxd_snd_effect_Pitch;
-hxd_snd_effect_Pitch.__name__ = "hxd.snd.effect.Pitch";
-hxd_snd_effect_Pitch.__super__ = hxd_snd_Effect;
-hxd_snd_effect_Pitch.prototype = $extend(hxd_snd_Effect.prototype,{
-	__class__: hxd_snd_effect_Pitch
-});
-var hxd_snd_effect_Spatialization = function() {
-	hxd_snd_Effect.call(this,"spatialization");
-	this.position = new h3d_Vector();
-	this.velocity = new h3d_Vector();
-	this.direction = new h3d_Vector();
-	this.referenceDistance = 1.0;
-	this.rollOffFactor = 1.0;
-};
-$hxClasses["hxd.snd.effect.Spatialization"] = hxd_snd_effect_Spatialization;
-hxd_snd_effect_Spatialization.__name__ = "hxd.snd.effect.Spatialization";
-hxd_snd_effect_Spatialization.__super__ = hxd_snd_Effect;
-hxd_snd_effect_Spatialization.prototype = $extend(hxd_snd_Effect.prototype,{
-	getVolumeModifier: function() {
-		if(this.fadeDistance == null) {
-			return 1.;
-		}
-		var _this = hxd_snd_Manager.get().listener.position;
-		var v = this.position;
-		var dx = v.x - _this.x;
-		var dy = v.y - _this.y;
-		var dz = v.z - _this.z;
-		var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-		if(this.maxDistance != null) {
-			dist -= this.maxDistance;
-		} else {
-			dist -= this.referenceDistance;
-		}
-		var volume = 1 - dist / this.fadeDistance;
-		if(volume > 1) {
-			volume = 1;
-		}
-		if(volume < 0) {
-			volume = 0;
-		}
-		return volume;
-	}
-	,applyAudibleVolumeModifier: function(v) {
-		var _this = hxd_snd_Manager.get().listener.position;
-		var v1 = this.position;
-		var dx = v1.x - _this.x;
-		var dy = v1.y - _this.y;
-		var dz = v1.z - _this.z;
-		var dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-		var b = this.referenceDistance;
-		if(dist < b) {
-			dist = b;
-		}
-		if(this.maxDistance != null) {
-			var b = this.maxDistance;
-			if(dist > b) {
-				dist = b;
-			}
-		}
-		return v * (this.referenceDistance / (this.referenceDistance + this.rollOffFactor * (dist - this.referenceDistance)));
-	}
-	,__class__: hxd_snd_effect_Spatialization
-});
-var hxd_snd_webaudio_BufferHandle = function() {
-};
-$hxClasses["hxd.snd.webaudio.BufferHandle"] = hxd_snd_webaudio_BufferHandle;
-hxd_snd_webaudio_BufferHandle.__name__ = "hxd.snd.webaudio.BufferHandle";
-hxd_snd_webaudio_BufferHandle.prototype = {
-	__class__: hxd_snd_webaudio_BufferHandle
-};
-var hxd_snd_webaudio_SourceHandle = function() {
-	this.buffers = [];
-	this.sampleOffset = 0;
-	this.pitch = 1;
-	this.firstPlay = true;
-};
-$hxClasses["hxd.snd.webaudio.SourceHandle"] = hxd_snd_webaudio_SourceHandle;
-hxd_snd_webaudio_SourceHandle.__name__ = "hxd.snd.webaudio.SourceHandle";
-hxd_snd_webaudio_SourceHandle.prototype = {
-	updateDestination: function() {
-		this.destination = this.gain;
-		if(this.lowPass != null) {
-			this.lowPass.connect(this.destination);
-			this.destination = this.lowPass;
-		}
-		if(this.panner != null) {
-			this.panner.connect(this.destination);
-			this.destination = this.panner;
-		}
-		this.gain.connect(hxd_snd_webaudio_Context.destination);
-		var _g = 0;
-		var _g1 = this.buffers;
-		while(_g < _g1.length) {
-			var b = _g1[_g];
-			++_g;
-			if(b.node != null) {
-				b.restart(this);
-			}
-		}
-	}
-	,applyPitch: function() {
-		var t = 0.;
-		var _g = 0;
-		var _g1 = this.buffers;
-		while(_g < _g1.length) t = _g1[_g++].readjust(t,this);
-	}
-	,__class__: hxd_snd_webaudio_SourceHandle
-};
-var hxd_snd_webaudio_BufferPlayback = function() {
-};
-$hxClasses["hxd.snd.webaudio.BufferPlayback"] = hxd_snd_webaudio_BufferPlayback;
-hxd_snd_webaudio_BufferPlayback.__name__ = "hxd.snd.webaudio.BufferPlayback";
-hxd_snd_webaudio_BufferPlayback.prototype = {
-	get_currentSample: function() {
-		if(this.consumed) {
-			return this.buffer.samples;
-		}
-		if(this.node == null || !this.dirty || this.node.context.currentTime < this.lastTime) {
-			return 0;
-		}
-		this.lastSamples += Math.floor((this.node.context.currentTime - this.lastTime) * this.buffer.inst.sampleRate * this.node.playbackRate.value);
-		this.lastTime = this.node.context.currentTime;
-		return this.lastSamples;
-	}
-	,set: function(buf,grainOffset) {
-		this.buffer = buf;
-		this.offset = isNaN(grainOffset) ? 0 : grainOffset;
-		this.dirty = false;
-		this.consumed = false;
-		this.starts = 0;
-		this.ends = 0;
-	}
-	,start: function(ctx,source,time) {
-		this.dirty = true;
-		this.consumed = false;
-		if(this.node != null) {
-			this.stop();
-		}
-		if(source.firstPlay && this.buffer.samples > 10) {
-			source.firstPlay = false;
-			var _g = [];
-			var _g1 = 0;
-			var _g2 = this.buffer.inst.numberOfChannels;
-			while(_g1 < _g2) _g.push(this.buffer.inst.getChannelData(_g1++));
-			var j = 0;
-			var fade = 0.;
-			while(j < 10) {
-				var i = 0;
-				while(i < _g.length) {
-					_g[i][j] *= fade;
-					++i;
-				}
-				++j;
-				fade += 0.1;
-				if(fade > 1) {
-					fade = 1;
-				}
-			}
-		}
-		this.node = ctx.createBufferSource();
-		this.node.buffer = this.buffer.inst;
-		this.node.addEventListener("ended",$bind(this,this.onBufferConsumed));
-		this.node.connect(source.destination);
-		this.node.playbackRate.value = source.pitch;
-		this.node.start(time,this.offset);
-		this.lastSamples = 0;
-		this.lastTime = time;
-		this.starts = time;
-		return this.ends = time + (this.buffer.inst.duration - this.offset) / source.pitch;
-	}
-	,readjust: function(time,source) {
-		if(this.consumed || this.node == null) {
-			return this.ends;
-		}
-		var ctx = source.driver.ctx;
-		var shiftTime = ctx.currentTime;
-		this.node.playbackRate.setValueAtTime(source.pitch,shiftTime);
-		var elapsed = shiftTime - this.starts;
-		if(elapsed < 0) {
-			return this.start(ctx,source,time == 0 ? shiftTime : time);
-		}
-		this.starts = shiftTime - elapsed / source.pitch;
-		return this.ends = this.starts + (this.buffer.inst.duration - this.offset) / source.pitch;
-	}
-	,restart: function(source) {
-		if(this.consumed || this.node == null) {
-			return;
-		}
-		var ctx = hxd_snd_webaudio_Context.get();
-		if(ctx.currentTime > this.starts) {
-			this.offset += (ctx.currentTime - this.starts) * source.pitch;
-			this.start(ctx,source,ctx.currentTime);
-		} else {
-			this.start(ctx,source,this.starts);
-		}
-	}
-	,stop: function(immediate) {
-		if(immediate == null) {
-			immediate = true;
-		}
-		if(this.node != null) {
-			this.node.removeEventListener("ended",$bind(this,this.onBufferConsumed));
-			if(immediate) {
-				this.node.disconnect();
-			} else {
-				this.node.stop();
-			}
-			this.node = null;
-		}
-	}
-	,onBufferConsumed: function(e) {
-		this.node.removeEventListener("ended",$bind(this,this.onBufferConsumed));
-		this.node.disconnect();
-		this.node = null;
-		this.consumed = true;
-	}
-	,clear: function() {
-		this.buffer = null;
-		this.node = null;
-	}
-	,__class__: hxd_snd_webaudio_BufferPlayback
-};
-var hxd_snd_webaudio_Context = function() { };
-$hxClasses["hxd.snd.webaudio.Context"] = hxd_snd_webaudio_Context;
-hxd_snd_webaudio_Context.__name__ = "hxd.snd.webaudio.Context";
-hxd_snd_webaudio_Context.get = function() {
-	if(hxd_snd_webaudio_Context.ctx == null) {
-		try {
-			hxd_snd_webaudio_Context.ctx = new AudioContext();
-		} catch( _g ) {
-			try {
-				hxd_snd_webaudio_Context.ctx = new window.webkitAudioContext();
-			} catch( _g1 ) {
-				hxd_snd_webaudio_Context.ctx = null;
-			}
-		}
-		if(hxd_snd_webaudio_Context.ctx == null) {
-			throw haxe_Exception.thrown("WebAudio API not available in this browser!");
-		}
-		if(hxd_snd_webaudio_Context.ctx.state == "suspended") {
-			hxd_snd_webaudio_Context.waitForPageInput();
-		}
-		hxd_snd_webaudio_Context.ctx.addEventListener("statechange",function(_) {
-			if(hxd_snd_webaudio_Context.ctx.state == "suspended") {
-				hxd_snd_webaudio_Context.waitForPageInput();
-			}
-		});
-		hxd_snd_webaudio_Context.bufferPool = [];
-		hxd_snd_webaudio_Context.gainPool = [];
-		hxd_snd_webaudio_Context.masterGain = hxd_snd_webaudio_Context.ctx.createGain();
-		hxd_snd_webaudio_Context.masterGain.connect(hxd_snd_webaudio_Context.ctx.destination);
-		hxd_snd_webaudio_Context.destination = hxd_snd_webaudio_Context.masterGain;
-	}
-	return hxd_snd_webaudio_Context.ctx;
-};
-hxd_snd_webaudio_Context.waitForPageInput = function() {
-	if(!hxd_snd_webaudio_Context.suspended) {
-		window.document.addEventListener("click",hxd_snd_webaudio_Context.resumeContext);
-		window.document.addEventListener("keydown",hxd_snd_webaudio_Context.resumeContext);
-		window.document.body.addEventListener("keydown",hxd_snd_webaudio_Context.resumeContext);
-		window.document.body.addEventListener("touchend",hxd_snd_webaudio_Context.resumeContext);
-		hxd_snd_webaudio_Context.suspended = true;
-	}
-};
-hxd_snd_webaudio_Context.resumeContext = function(_) {
-	if(hxd_snd_webaudio_Context.suspended) {
-		if(hxd_snd_webaudio_Context.ctx != null) {
-			hxd_snd_webaudio_Context.ctx.resume();
-		}
-		window.document.removeEventListener("click",hxd_snd_webaudio_Context.resumeContext);
-		window.document.removeEventListener("keydown",hxd_snd_webaudio_Context.resumeContext);
-		window.document.body.removeEventListener("keydown",hxd_snd_webaudio_Context.resumeContext);
-		window.document.body.removeEventListener("touchend",hxd_snd_webaudio_Context.resumeContext);
-		hxd_snd_webaudio_Context.suspended = false;
-	}
-};
-hxd_snd_webaudio_Context.getBuffer = function(channels,sampleCount,rate) {
-	var _g = 0;
-	var _g1 = hxd_snd_webaudio_Context.bufferPool;
-	while(_g < _g1.length) {
-		var pool = _g1[_g];
-		++_g;
-		if(pool.channels == channels && pool.samples == sampleCount && pool.rate == rate) {
-			if(pool.pool.length != 0) {
-				return pool.pool.pop();
-			} else {
-				return hxd_snd_webaudio_Context.ctx.createBuffer(channels,sampleCount,rate);
-			}
-		}
-	}
-	hxd_snd_webaudio_Context.bufferPool.push(new hxd_snd_webaudio__$Context_BufferPool(channels,sampleCount,rate));
-	return hxd_snd_webaudio_Context.ctx.createBuffer(channels,sampleCount,rate);
-};
-hxd_snd_webaudio_Context.putBuffer = function(buf) {
-	var rate = buf.sampleRate | 0;
-	var _g = 0;
-	var _g1 = hxd_snd_webaudio_Context.bufferPool;
-	while(_g < _g1.length) {
-		var pool = _g1[_g];
-		++_g;
-		if(pool.channels == buf.numberOfChannels && pool.samples == buf.length && pool.rate == rate) {
-			pool.pool.push(buf);
-			break;
-		}
-	}
-};
-var hxd_snd_webaudio__$Context_BufferPool = function(channels,samples,rate) {
-	this.pool = [];
-	this.channels = channels;
-	this.samples = samples;
-	this.rate = rate;
-};
-$hxClasses["hxd.snd.webaudio._Context.BufferPool"] = hxd_snd_webaudio__$Context_BufferPool;
-hxd_snd_webaudio__$Context_BufferPool.__name__ = "hxd.snd.webaudio._Context.BufferPool";
-hxd_snd_webaudio__$Context_BufferPool.prototype = {
-	__class__: hxd_snd_webaudio__$Context_BufferPool
-};
-var hxd_snd_webaudio_Driver = function() {
-	this.playbackPool = [];
-	this.ctx = hxd_snd_webaudio_Context.get();
-};
-$hxClasses["hxd.snd.webaudio.Driver"] = hxd_snd_webaudio_Driver;
-hxd_snd_webaudio_Driver.__name__ = "hxd.snd.webaudio.Driver";
-hxd_snd_webaudio_Driver.__interfaces__ = [hxd_snd_Driver];
-hxd_snd_webaudio_Driver.prototype = {
-	hasFeature: function(d) {
-		return true;
-	}
-	,setMasterVolume: function(value) {
-		hxd_snd_webaudio_Context.masterGain.gain.value = value;
-	}
-	,setListenerParams: function(position,direction,up,velocity) {
-		this.ctx.listener.setPosition(-position.x,position.y,position.z);
-		this.ctx.listener.setOrientation(-direction.x,direction.y,direction.z,-up.x,up.y,up.z);
-	}
-	,createSource: function() {
-		var s = new hxd_snd_webaudio_SourceHandle();
-		s.driver = this;
-		s.gain = hxd_snd_webaudio_Context.gainPool.length != 0 ? hxd_snd_webaudio_Context.gainPool.pop() : hxd_snd_webaudio_Context.ctx.createGain();
-		s.updateDestination();
-		return s;
-	}
-	,playSource: function(source) {
-		if(!source.playing) {
-			source.playing = true;
-			if(source.buffers.length != 0) {
-				var time = this.ctx.currentTime;
-				var _g = 0;
-				var _g1 = source.buffers;
-				while(_g < _g1.length) {
-					var b = _g1[_g];
-					++_g;
-					if(b.consumed) {
-						continue;
-					}
-					time = b.start(this.ctx,source,time);
-				}
-			}
-		}
-	}
-	,stopSource: function(source) {
-		source.playing = false;
-		source.sampleOffset = 0;
-	}
-	,setSourceVolume: function(source,value) {
-		source.gain.gain.value = value;
-	}
-	,createBuffer: function() {
-		var b = new hxd_snd_webaudio_BufferHandle();
-		b.samples = 0;
-		return b;
-	}
-	,setBufferData: function(buffer,data,size,format,channelCount,samplingRate) {
-		var sampleCount;
-		switch(format._hx_index) {
-		case 0:
-			sampleCount = 1;
-			break;
-		case 1:
-			sampleCount = 2;
-			break;
-		case 2:
-			sampleCount = 4;
-			break;
-		}
-		var sampleCount1 = size / sampleCount / channelCount | 0;
-		buffer.samples = sampleCount1;
-		if(sampleCount1 == 0) {
-			return;
-		}
-		if(buffer.inst == null) {
-			buffer.inst = hxd_snd_webaudio_Context.getBuffer(channelCount,sampleCount1,samplingRate);
-		} else if(buffer.inst.sampleRate != samplingRate || buffer.inst.numberOfChannels != channelCount || buffer.inst.length != sampleCount1) {
-			hxd_snd_webaudio_Context.putBuffer(buffer.inst);
-			buffer.inst = hxd_snd_webaudio_Context.getBuffer(channelCount,sampleCount1,samplingRate);
-		}
-		switch(format._hx_index) {
-		case 0:
-			var ui8 = new Uint8Array(data.b.bufferValue);
-			if(channelCount == 1) {
-				var chn = buffer.inst.getChannelData(0);
-				var _g = 0;
-				while(_g < sampleCount1) {
-					var i = _g++;
-					chn[i] = ui8[i] / 255;
-				}
-			} else {
-				var left = buffer.inst.getChannelData(0);
-				var right = buffer.inst.getChannelData(1);
-				var r = 0;
-				var _g = 0;
-				while(_g < sampleCount1) {
-					var i = _g++;
-					left[i] = ui8[r] / 255;
-					right[i] = ui8[r + 1] / 255;
-					r += channelCount;
-				}
-			}
-			break;
-		case 1:
-			var i16 = new Int16Array(data.b.bufferValue);
-			if(channelCount == 1) {
-				var chn = buffer.inst.getChannelData(0);
-				var _g = 0;
-				while(_g < sampleCount1) {
-					var i = _g++;
-					chn[i] = i16[i] / 32768;
-				}
-			} else {
-				var left = buffer.inst.getChannelData(0);
-				var right = buffer.inst.getChannelData(1);
-				var r = 0;
-				var _g = 0;
-				while(_g < sampleCount1) {
-					var i = _g++;
-					left[i] = i16[r] / 32768;
-					right[i] = i16[r + 1] / 32768;
-					r += channelCount;
-				}
-			}
-			break;
-		case 2:
-			var f32 = new Float32Array(data.b.bufferValue);
-			if(channelCount == 1) {
-				var chn = buffer.inst.getChannelData(0);
-				var _g = 0;
-				while(_g < sampleCount1) {
-					var i = _g++;
-					chn[i] = f32[i];
-				}
-			} else {
-				var left = buffer.inst.getChannelData(0);
-				var right = buffer.inst.getChannelData(1);
-				var r = 0;
-				var _g = 0;
-				while(_g < sampleCount1) {
-					var i = _g++;
-					left[i] = f32[r];
-					right[i] = f32[r + 1];
-					r += channelCount;
-				}
-			}
-			break;
-		}
-	}
-	,destroyBuffer: function(buffer) {
-		if(buffer.inst != null) {
-			hxd_snd_webaudio_Context.putBuffer(buffer.inst);
-		}
-		buffer.inst = null;
-	}
-	,queueBuffer: function(source,buffer,sampleStart,endOfStream) {
-		var buf = this.playbackPool.length != 0 ? this.playbackPool.pop() : new hxd_snd_webaudio_BufferPlayback();
-		if(buffer.inst == null) {
-			return;
-		}
-		buf.set(buffer,sampleStart / buffer.inst.length * buffer.inst.duration);
-		buffer.isEnd = endOfStream;
-		source.buffers.push(buf);
-		if(source.playing) {
-			if(source.buffers.length != 1) {
-				var t = source.buffers[source.buffers.length - 2].ends;
-				var tmp = this.ctx;
-				var tmp1;
-				if(isFinite(t)) {
-					var b = this.ctx.currentTime;
-					tmp1 = t < b ? b : t;
-				} else {
-					tmp1 = this.ctx.currentTime;
-				}
-				buf.start(tmp,source,tmp1);
-			} else {
-				buf.start(this.ctx,source,this.ctx.currentTime);
-			}
-		}
-	}
-	,unqueueBuffer: function(source,buffer) {
-		while(0 < source.buffers.length) {
-			var b = source.buffers[0];
-			if(b.buffer == buffer) {
-				source.buffers.splice(0,1);
-				b.stop(!buffer.isEnd);
-				b.clear();
-				this.playbackPool.push(b);
-				break;
-			}
-		}
-		if(buffer.isEnd || !source.playing) {
-			source.sampleOffset = 0;
-		} else {
-			source.sampleOffset += buffer.samples;
-		}
-	}
-	,getProcessedBuffers: function(source) {
-		var cnt = 0;
-		var _g = 0;
-		var _g1 = source.buffers;
-		while(_g < _g1.length) if(_g1[_g++].consumed) {
-			++cnt;
-		}
-		return cnt;
-	}
-	,getPlayedSampleCount: function(source) {
-		var consumed = 0;
-		var buf = null;
-		var _g = 0;
-		var _g1 = source.buffers;
-		while(_g < _g1.length) {
-			var b = _g1[_g];
-			++_g;
-			if(b.consumed) {
-				consumed += b.buffer.samples;
-			} else if(b.dirty) {
-				buf = b;
-				break;
-			}
-		}
-		if(buf != null) {
-			return source.sampleOffset + consumed + buf.get_currentSample();
-		}
-		return source.sampleOffset + consumed;
-	}
-	,update: function() {
-	}
-	,getEffectDriver: function(type) {
-		switch(type) {
-		case "lowpass":
-			return new hxd_snd_webaudio_LowPassDriver();
-		case "pitch":
-			return new hxd_snd_webaudio_PitchDriver();
-		case "spatialization":
-			return new hxd_snd_webaudio_SpatializationDriver();
-		default:
-			return new hxd_snd_EffectDriver();
-		}
-	}
-	,__class__: hxd_snd_webaudio_Driver
-};
-var hxd_snd_webaudio_LowPassDriver = function() {
-	this.pool = [];
-	hxd_snd_EffectDriver.call(this);
-};
-$hxClasses["hxd.snd.webaudio.LowPassDriver"] = hxd_snd_webaudio_LowPassDriver;
-hxd_snd_webaudio_LowPassDriver.__name__ = "hxd.snd.webaudio.LowPassDriver";
-hxd_snd_webaudio_LowPassDriver.__super__ = hxd_snd_EffectDriver;
-hxd_snd_webaudio_LowPassDriver.prototype = $extend(hxd_snd_EffectDriver.prototype,{
-	get: function(ctx) {
-		if(this.pool.length != 0) {
-			return this.pool.pop();
-		}
-		var node = ctx.createBiquadFilter();
-		node.type = "lowpass";
-		return node;
-	}
-	,bind: function(e,source) {
-		source.lowPass = this.get(source.driver.ctx);
-		source.updateDestination();
-		this.apply(e,source);
-	}
-	,apply: function(e,source) {
-		var max = source.driver.ctx.sampleRate / 2;
-		source.lowPass.frequency.value = max * Math.pow(2,Math.log(max / 40) / Math.LN2 * (e.gainHF - 1));
-	}
-	,unbind: function(e,source) {
-		this.pool.push(source.lowPass);
-		source.lowPass.disconnect();
-		source.lowPass = null;
-		if(source.driver != null) {
-			source.updateDestination();
-		}
-	}
-	,__class__: hxd_snd_webaudio_LowPassDriver
-});
-var hxd_snd_webaudio_PitchDriver = function() {
-	hxd_snd_EffectDriver.call(this);
-};
-$hxClasses["hxd.snd.webaudio.PitchDriver"] = hxd_snd_webaudio_PitchDriver;
-hxd_snd_webaudio_PitchDriver.__name__ = "hxd.snd.webaudio.PitchDriver";
-hxd_snd_webaudio_PitchDriver.__super__ = hxd_snd_EffectDriver;
-hxd_snd_webaudio_PitchDriver.prototype = $extend(hxd_snd_EffectDriver.prototype,{
-	apply: function(e,source) {
-		if(source.pitch != e.value) {
-			source.pitch = e.value;
-			source.applyPitch();
-		}
-	}
-	,unbind: function(e,source) {
-		source.pitch = 1;
-		source.applyPitch();
-	}
-	,__class__: hxd_snd_webaudio_PitchDriver
-});
-var hxd_snd_webaudio_SpatializationDriver = function() {
-	this.pool = [];
-	hxd_snd_EffectDriver.call(this);
-};
-$hxClasses["hxd.snd.webaudio.SpatializationDriver"] = hxd_snd_webaudio_SpatializationDriver;
-hxd_snd_webaudio_SpatializationDriver.__name__ = "hxd.snd.webaudio.SpatializationDriver";
-hxd_snd_webaudio_SpatializationDriver.__super__ = hxd_snd_EffectDriver;
-hxd_snd_webaudio_SpatializationDriver.prototype = $extend(hxd_snd_EffectDriver.prototype,{
-	get: function(ctx) {
-		if(this.pool.length != 0) {
-			return this.pool.pop();
-		}
-		return ctx.createPanner();
-	}
-	,bind: function(e,source) {
-		source.panner = this.get(source.driver.ctx);
-		source.updateDestination();
-		this.apply(e,source);
-	}
-	,apply: function(e,source) {
-		source.panner.setPosition(-e.position.x,e.position.y,e.position.z);
-		source.panner.setOrientation(-e.direction.x,e.direction.y,e.direction.z);
-		source.panner.rolloffFactor = e.rollOffFactor;
-		source.panner.refDistance = e.referenceDistance;
-		source.panner.maxDistance = e.maxDistance == null ? 3.40282347e38 : e.maxDistance;
-	}
-	,unbind: function(e,source) {
-		this.pool.push(source.panner);
-		source.panner.disconnect();
-		source.panner = null;
-		if(source.driver != null) {
-			source.updateDestination();
-		}
-	}
-	,__class__: hxd_snd_webaudio_SpatializationDriver
-});
 var hxsl_Type = $hxEnums["hxsl.Type"] = { __ename__:true,__constructs__:null
 	,TVoid: {_hx_name:"TVoid",_hx_index:0,__enum__:"hxsl.Type",toString:$estr}
 	,TInt: {_hx_name:"TInt",_hx_index:1,__enum__:"hxsl.Type",toString:$estr}
@@ -42879,7 +40628,7 @@ $hxClasses["Array"] = Array;
 Array.__name__ = "Array";
 Date.prototype.__class__ = $hxClasses["Date"] = Date;
 Date.__name__ = "Date";
-haxe_Resource.content = [{ name : "R_blip2_wav", data : "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"},{ name : "R_blip_wav", data : "UklGRtwIAABXQVZFZm10IBAAAAABAAEARKwAAESsAAABAAgAZGF0YbgIAACGkZymr7e9wcTFxMG8ta2kmo+EeG1hV05FPzk2NDU3O0BHUFpkcHuHkp2nsLi+wsXGxMG9tq6lm5CFeW1iWE5GPzo3NTU3O0FIUVplcHyIk56osbi/w8XGxcK9t6+mnJGFem5jWE9HQDs3NjY4PEFJUVtmcX2IlJ6osbm/w8bHxsO+t6+mnJGGem5jWU9HQDs4NjY4PEJJUltmcX2JlJ+psrm/xMbHxsO+uLCnnJGGem9kWVBHQTs4Njc5PUJJUlxmcn2JlJ+psrrAxMfHxsO+uLCnnZKGe29kWVBIQTw4Nzc5PUJKUlxncn2JlJ+psrrAxMfHxsO/uLCnnZKGe29kWlBIQTw4Nzc5PUNKUlxncn6JlZ+psrrAxMfIxsO/uLCnnZKGe29kWlBIQTw4Nzc5PUNKUlxncn6JlaCqsrrAxMfIx8S/uLCnnZKHe29kWlBIQTw5Nzc5PUNKU1xncn6JlaCqs7rAxcfIx8S/uLGnnZKHe29kWlBIQTw5Nzc5PUNKU1xncn6JlaCqs7rAxcfIx8S/uLGnnZKHe29kWlBIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGnnZKHe3BkWlBIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGnnZKHe3BkWlBIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGnnZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGnnZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGnnZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGonZKHe3BkWlFIQTw5Nzc5PUNKU1xncn6KlaCqs7rAxcfIx8S/ubGnnZKHe3BlW1JKQz47Ojo8QEZNVV5pc36JlJ6nr7a7v8HCwL25s6yjmpCGfHFoX1ZPSkVCQUJDR0xSWmJrdH6IkZqiqrC1uLq6ubayraefl46FfHNqYltVUExKSElLTlJYXmZtdn6Hj5eepKqusbOzsrCsp6KblIyFfXVtZmBbVlNRUFBSVFhdY2lwd3+GjZSan6Snqqurq6mmop2XkYuEfXZwamVgXFpYV1dZW15iZ21yeH+Fi5CWmp6ho6Sko6KfnJiTjomDfXhzbmlmY2FfX19gYmVobHB1en+EiY2RlZianJ2dnJuZlpOPi4eCfnp1cm5raWdmZmZnaWttcHR3e3+DhoqNkJKUlZWVlZSSkI6LiIWCfnt4dXNxb25tbW1ub3FzdXd6fH+ChIeJioyNjo6Ojo2MiomHhYOBf317eXh3dnV1dXV1dnd4eXt8fn+BgoOEhYaGh4eHhoaFhYSDgoGAf35+fX18fHx8fHx8fX1+fn5/f3+AgICAgICAgIA"}];
+haxe_Resource.content = [{ name : "R_shape_png", data : "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"}];
 haxe_ds_ObjectMap.count = 0;
 haxe_MainLoop.add(hxd_System.updateCursor,-1);
 var hx__registerFont;
@@ -42908,13 +40657,10 @@ Xml.Comment = 3;
 Xml.DocType = 4;
 Xml.ProcessingInstruction = 5;
 Xml.Document = 6;
-format_mp3_MPEG.Reserved = 1;
-format_mp3_MPEG.V1_Bitrates = [[format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad],[format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_40,format_mp3_Bitrate.BR_48,format_mp3_Bitrate.BR_56,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_80,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_112,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_192,format_mp3_Bitrate.BR_224,format_mp3_Bitrate.BR_256,format_mp3_Bitrate.BR_320,format_mp3_Bitrate.BR_Bad],[format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_48,format_mp3_Bitrate.BR_56,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_80,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_112,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_192,format_mp3_Bitrate.BR_224,format_mp3_Bitrate.BR_256,format_mp3_Bitrate.BR_320,format_mp3_Bitrate.BR_384,format_mp3_Bitrate.BR_Bad],[format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_192,format_mp3_Bitrate.BR_224,format_mp3_Bitrate.BR_256,format_mp3_Bitrate.BR_288,format_mp3_Bitrate.BR_320,format_mp3_Bitrate.BR_352,format_mp3_Bitrate.BR_384,format_mp3_Bitrate.BR_416,format_mp3_Bitrate.BR_448,format_mp3_Bitrate.BR_Bad]];
-format_mp3_MPEG.V2_Bitrates = [[format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad,format_mp3_Bitrate.BR_Bad],[format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_8,format_mp3_Bitrate.BR_16,format_mp3_Bitrate.BR_24,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_40,format_mp3_Bitrate.BR_48,format_mp3_Bitrate.BR_56,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_80,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_112,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_144,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_Bad],[format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_8,format_mp3_Bitrate.BR_16,format_mp3_Bitrate.BR_24,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_40,format_mp3_Bitrate.BR_48,format_mp3_Bitrate.BR_56,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_80,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_112,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_144,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_Bad],[format_mp3_Bitrate.BR_Free,format_mp3_Bitrate.BR_32,format_mp3_Bitrate.BR_48,format_mp3_Bitrate.BR_56,format_mp3_Bitrate.BR_64,format_mp3_Bitrate.BR_80,format_mp3_Bitrate.BR_96,format_mp3_Bitrate.BR_112,format_mp3_Bitrate.BR_128,format_mp3_Bitrate.BR_144,format_mp3_Bitrate.BR_160,format_mp3_Bitrate.BR_176,format_mp3_Bitrate.BR_192,format_mp3_Bitrate.BR_224,format_mp3_Bitrate.BR_256,format_mp3_Bitrate.BR_Bad]];
-format_mp3_MPEG.SamplingRates = [[format_mp3_SamplingRate.SR_11025,format_mp3_SamplingRate.SR_12000,format_mp3_SamplingRate.SR_8000,format_mp3_SamplingRate.SR_Bad],[format_mp3_SamplingRate.SR_Bad,format_mp3_SamplingRate.SR_Bad,format_mp3_SamplingRate.SR_Bad,format_mp3_SamplingRate.SR_Bad],[format_mp3_SamplingRate.SR_22050,format_mp3_SamplingRate.SR_24000,format_mp3_SamplingRate.SR_12000,format_mp3_SamplingRate.SR_Bad],[format_mp3_SamplingRate.SR_44100,format_mp3_SamplingRate.SR_48000,format_mp3_SamplingRate.SR_32000,format_mp3_SamplingRate.SR_Bad]];
-format_mp3_CLayer.LReserved = 0;
 h2d_Object.tmpPoint = new h2d_col_Point();
 h2d_filter_Filter.defaultUseScreenResolution = false;
+h3d_shader_ScreenShader.SRC = "HXSLF2gzZC5zaGFkZXIuU2NyZWVuU2hhZGVyBwEFaW5wdXQNAQICCHBvc2l0aW9uBQoBAQADAnV2BQoBAQABAAAEBWZsaXBZAwIAAAUGb3V0cHV0DQICBghwb3NpdGlvbgUMBAUABwVjb2xvcgUMBAUABAAACApwaXhlbENvbG9yBQwEAAAJDGNhbGN1bGF0ZWRVVgUKBAAACghfX2luaXRfXw4GAAALBnZlcnRleA4GAAACAgoAAAUCBgQCBwUMAggFDAUMBgQCCQUKAgMFCgUKAAALAAAFAQYEAgYFDAkDKg4ECgICBQoAAAMGAQoCAgUKBAADAgQDAwEDAAAAAAAAAAADAQMAAAAAAADwPwMFDAUMAA";
+h2d_filter__$Mask_MaskShader.SRC = "HXSLG2gyZC5maWx0ZXIuX01hc2suTWFza1NoYWRlcg0BBWlucHV0DQECAghwb3NpdGlvbgUKAQEAAwJ1dgUKAQEAAQAABAVmbGlwWQMCAAAFBm91dHB1dA0CAgYIcG9zaXRpb24FDAQFAAcFY29sb3IFDAQFAAQAAAgKcGl4ZWxDb2xvcgUMBAAACQxjYWxjdWxhdGVkVVYFCgQAAAoHdGV4dHVyZQoCAAALBG1hc2sKAgAADAhtYXNrTWF0QQULAgAADQhtYXNrTWF0QgULAgAADgtzbW9vdGhBbHBoYQICAAEAAAAAAA8IX19pbml0X18OBgAAEAZ2ZXJ0ZXgOBgAAEQhmcmFnbWVudA4GAAADAg8AAAUCBgQCBwUMAggFDAUMBgQCCQUKAgMFCgUKAAAQAAAFAQYEAgYFDAkDKg4ECgICBQoAAAMGAQoCAgUKBAADAgQDAwEDAAAAAAAAAAADAQMAAAAAAADwPwMFDAUMAAERAAAFBQgSBWNvbG9yBQwEAAAJAyEOAgIKCgIDBQoFDAAIEwJ1dgULBAAACQMpDgICAwUKAQMAAAAAAADwPwMFCwAIFAFrBQwEAAAJAyEOAgILCgkDKA4CCQMdDgICEwULAgwFCwMJAx0OAgITBQsCDQULAwUKBQwACBUFYWxwaGEDBAAACwIOAgoCFAUMDAADCQMmDgEGBwoCFAUMDAADAQMAAAAAAAAAAAMCAwMABgQCBwUMBgECEgUMAhUDBQwFDAA";
 h3d_Buffer.GUID = 0;
 h3d_Engine.SOFTWARE_DRIVER = false;
 h3d_Engine.ANTIALIASING = 0;
@@ -42955,7 +40701,6 @@ h3d_mat_Texture.UID = 0;
 h3d_mat_Texture.PREVENT_AUTO_DISPOSE = 2147483647;
 h3d_mat_Texture.nativeFormat = hxd_PixelFormat.RGBA;
 h3d_pass_Blur.__meta__ = { obj : { ignore : ["shader"]}};
-h3d_shader_ScreenShader.SRC = "HXSLF2gzZC5zaGFkZXIuU2NyZWVuU2hhZGVyBwEFaW5wdXQNAQICCHBvc2l0aW9uBQoBAQADAnV2BQoBAQABAAAEBWZsaXBZAwIAAAUGb3V0cHV0DQICBghwb3NpdGlvbgUMBAUABwVjb2xvcgUMBAUABAAACApwaXhlbENvbG9yBQwEAAAJDGNhbGN1bGF0ZWRVVgUKBAAACghfX2luaXRfXw4GAAALBnZlcnRleA4GAAACAgoAAAUCBgQCBwUMAggFDAUMBgQCCQUKAgMFCgUKAAALAAAFAQYEAgYFDAkDKg4ECgICBQoAAAMGAQoCAgUKBAADAgQDAwEDAAAAAAAAAAADAQMAAAAAAADwPwMFDAUMAA";
 h3d_pass__$Border_BorderShader.SRC = "HXSLHWgzZC5wYXNzLl9Cb3JkZXIuQm9yZGVyU2hhZGVyCQEFaW5wdXQNAQICCHBvc2l0aW9uBQoBAQADAnV2BQoBAQABAAAEBWZsaXBZAwIAAAUGb3V0cHV0DQICBghwb3NpdGlvbgUMBAUABwVjb2xvcgUMBAUABAAACApwaXhlbENvbG9yBQwEAAAJDGNhbGN1bGF0ZWRVVgUKBAAACgVjb2xvcgUMAgAACwhfX2luaXRfXw4GAAAMBnZlcnRleA4GAAANCGZyYWdtZW50DgYAAAMCCwAABQIGBAIHBQwCCAUMBQwGBAIJBQoCAwUKBQoAAAwAAAUBBgQCBgUMCQMqDgQKAgIFCgAAAwYBCgICBQoEAAMCBAMDAQMAAAAAAAAAAAMBAwAAAAAAAPA/AwUMBQwAAQ0AAAUBBgQCCAUMAgoFDAUMAA";
 h3d_pass__$Copy_ArrayCopyShader.SRC = "HXSLHmgzZC5wYXNzLl9Db3B5LkFycmF5Q29weVNoYWRlcgoBBWlucHV0DQECAghwb3NpdGlvbgUKAQEAAwJ1dgUKAQEAAQAABAVmbGlwWQMCAAAFBm91dHB1dA0CAgYIcG9zaXRpb24FDAQFAAcFY29sb3IFDAQFAAQAAAgKcGl4ZWxDb2xvcgUMBAAACQxjYWxjdWxhdGVkVVYFCgQAAAoHdGV4dHVyZQsCAAALBWxheWVyAQIAAAwIX19pbml0X18OBgAADQZ2ZXJ0ZXgOBgAADghmcmFnbWVudA4GAAADAgwAAAUCBgQCBwUMAggFDAUMBgQCCQUKAgMFCgUKAAANAAAFAQYEAgYFDAkDKg4ECgICBQoAAAMGAQoCAgUKBAADAgQDAwEDAAAAAAAAAAADAQMAAAAAAADwPwMFDAUMAAEOAAAFAQYEAggFDAkDIQ4CAgoLCQMpDgICCQUKCQMmDgECCwEDBQsFDAUMAA";
 h3d_pass__$Copy_CopyShader.SRC = "HXSLGWgzZC5wYXNzLl9Db3B5LkNvcHlTaGFkZXIJAQVpbnB1dA0BAgIIcG9zaXRpb24FCgEBAAMCdXYFCgEBAAEAAAQFZmxpcFkDAgAABQZvdXRwdXQNAgIGCHBvc2l0aW9uBQwEBQAHBWNvbG9yBQwEBQAEAAAICnBpeGVsQ29sb3IFDAQAAAkMY2FsY3VsYXRlZFVWBQoEAAAKB3RleHR1cmUKAgAACwhfX2luaXRfXw4GAAAMBnZlcnRleA4GAAANCGZyYWdtZW50DgYAAAMCCwAABQIGBAIHBQwCCAUMBQwGBAIJBQoCAwUKBQoAAAwAAAUBBgQCBgUMCQMqDgQKAgIFCgAAAwYBCgICBQoEAAMCBAMDAQMAAAAAAAAAAAMBAwAAAAAAAPA/AwUMBQwAAQ0AAAUBBgQCCAUMCQMhDgICCgoCCQUKBQwFDAA";
@@ -43039,16 +40784,6 @@ hxd_res_Image.DEFAULT_FILTER = h3d_mat_Filter.Linear;
 hxd_res_Image.ENABLE_AUTO_WATCH = true;
 hxd_res_Image.BLACK_1x1 = hxd_Pixels.alloc(1,1,hxd_PixelFormat.RGBA);
 hxd_res_Image.LOG_TEXTURE_LOAD = false;
-hxd_res_Sound.ENABLE_AUTO_WATCH = true;
-hxd_snd_Channel.ID = 0;
-hxd_snd_Source.ID = 0;
-hxd_snd_Manager.STREAM_DURATION = 5.;
-hxd_snd_Manager.STREAM_BUFFER_SAMPLE_COUNT = 44100;
-hxd_snd_Manager.BUFFER_QUEUE_LENGTH = 2;
-hxd_snd_Manager.MAX_SOURCES = 16;
-hxd_snd_Manager.SOUND_BUFFER_CACHE_SIZE = 256;
-hxd_snd_Manager.VIRTUAL_VOLUME_THRESHOLD = 1e-5;
-hxd_snd_Manager.BUFFER_STREAM_SPLIT = 16;
 hxsl_Tools.UID = 0;
 hxsl_Tools.SWIZ = hxsl_Component.__empty_constructs__.slice();
 hxsl_Tools.MAX_CHANNELS_BITS = 3;
