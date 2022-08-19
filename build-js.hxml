@@ -5,8 +5,8 @@
 --dce full
 
 #-lib heaps:1.9.0
-# Get git version as of 2022-04-09:
--lib heaps:git:https://github.com/HeapsIO/heaps#57c1bd34779193636562621faca5a875b2113923
+# Get latest git version as of 2022-08-19:
+-lib heaps:git:https://github.com/HeapsIO/heaps#f6244218f82cf68f6b779f1ad481dd9d5250357a
 
 -D resourcesPath=./www/res
 
