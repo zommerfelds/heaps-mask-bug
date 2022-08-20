@@ -126,7 +126,7 @@ App.prototype = $extend(hxd_App.prototype,{
 		shipTile.dx = -(0.5 * shipTile.width);
 		shipTile.dy = -(0.5 * shipTile.height);
 		var ship = new h2d_Bitmap(shipTile,this.s2d);
-		ship.set_width(this.s2d.width);
+		ship.set_width(1000);
 		ship.posChanged = true;
 		ship.x = this.s2d.width / 2;
 		ship.posChanged = true;
