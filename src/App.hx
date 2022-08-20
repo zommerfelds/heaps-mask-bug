@@ -22,7 +22,7 @@ class App extends hxd.App {
 		final shipTile = hxd.Res.ship.toTile();
 		shipTile.setCenterRatio();
 		final ship = new Bitmap(shipTile, s2d);
-		ship.width = s2d.width;
+		ship.width = 1000;
 		ship.x = s2d.width / 2;
 		ship.y = s2d.height / 2;
 		ship.filter = new Mask(shape, true, false);
